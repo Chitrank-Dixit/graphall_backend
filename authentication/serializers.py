@@ -1,13 +1,16 @@
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
+
 from authentication.models import Client, MasterAdmin
 from django.contrib.auth.models import User
 
 
 class ClientSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Client
         fields = ('address', 'mobile_phone', 'user_type','plan')
+        depth = 1
 
     def create(self, validated_data):
         pass
