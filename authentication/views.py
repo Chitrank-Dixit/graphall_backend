@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework import permissions, status, views, viewsets
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from authentication.models import Client, MasterAdmin
 from authentication.permissions import IsAccountOwner
-from authentication.serializers import AccountSerializer
+from authentication.serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer
+
 
 class AccountViewSet(viewsets.ModelViewSet):
     lookup_field = 'username'
@@ -39,22 +41,21 @@ class AccountViewSet(viewsets.ModelViewSet):
             'message': 'Account could not be created with received data.'
         }, status=status.HTTP_400_BAD_REQUEST)
 
+
 class LoginView(views.APIView):
-    print 'In log in view'
+
     queryset = User.objects.all()
+
     def post(self, request, format=None):
         data = json.loads(request.body)
         username = data.get('username', None)
         password = data.get('password', None)
-        print "In Login", data
         account = authenticate(username=username, password=password)
-        print account
+
         if account is not None:
             if account.is_active:
                 login(request, account)
-
                 serialized = AccountSerializer(account)
-                print 'yeah'
                 return Response(serialized.data)
             else:
                 return Response({
@@ -73,5 +74,14 @@ class LogoutView(views.APIView):
 
     def post(self, request, format=None):
         logout(request)
-
         return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+
+class ClientView(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+
+class MasterAdminView(viewsets.ModelViewSet):
+    queryset = MasterAdmin.objects.all()
+    serializer_class = MasterAdminSerializer
