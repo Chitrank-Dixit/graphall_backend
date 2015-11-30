@@ -12,11 +12,12 @@ from authentication.serializers import AccountSerializer, ClientSerializer, Mast
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
-    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication,)
     lookup_field = 'id'
     queryset = User.objects.all()
     serializer_class = AccountSerializer
+
     def get_permissions(self):
         if self.request.method in permissions.SAFE_METHODS:
             return (permissions.AllowAny(),)
@@ -28,12 +29,9 @@ class AccountViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
-        print serializer
         if serializer.is_valid():
             User.objects.create_user(**serializer.validated_data)
-
             return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
-        print request.data
         return Response({
             'status': 'Bad request',
             'message': 'Account could not be created with received data.'
@@ -41,7 +39,6 @@ class AccountViewSet(viewsets.ModelViewSet):
 
 
 class LoginView(views.APIView):
-
     queryset = User.objects.all()
 
     def post(self, request, format=None):
@@ -69,21 +66,22 @@ class LoginView(views.APIView):
 
 class LogoutView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (JSONWebTokenAuthentication, )
+    authentication_classes = (JSONWebTokenAuthentication,)
+
     def post(self, request, format=None):
         logout(request)
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 
 class ClientView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
-    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication,)
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
 
 class MasterAdminView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated, )
-    authentication_classes = (JSONWebTokenAuthentication, )
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (JSONWebTokenAuthentication,)
     queryset = MasterAdmin.objects.all()
     serializer_class = MasterAdminSerializer
