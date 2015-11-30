@@ -10,7 +10,7 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ('address', 'mobile_phone', 'user_type','plan')
-        depth = 1
+        depth = 1  # increase the depth to navigate to mode detailed view in the api's
 
     def create(self, validated_data):
         pass

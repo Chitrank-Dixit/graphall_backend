@@ -44,6 +44,9 @@ plans_router = routers.NestedSimpleRouter(
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api-token-auth/', 'rest_framework_jwt.views.obtain_jwt_token'),  # JSON Web Tokens
+    url(r'^api-token-refresh/', 'rest_framework_jwt.views.refresh_jwt_token'),  # JSON Web Tokens
+    url(r'^api-token-verify/', 'rest_framework_jwt.views.verify_jwt_token'),  # JSON Web Tokens
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(accounts_router.urls)),
     url(r'^api/v1/', include(clients_router.urls)),
@@ -53,4 +56,6 @@ urlpatterns = [
     url(r'^api/v1/auth/login/$', LoginView.as_view(), name='login'),
     url(r'^api/v1/auth/logout/$', LogoutView.as_view(), name='logout'),
     #url('^.*$', IndexView.as_view(), name='index'),
+
+    url(r'^docs/', include('rest_framework_swagger.urls')),  # django rest swagger
 ]

@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import permissions, status, views, viewsets
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.contrib.auth.models import User
 from authentication.models import Client, MasterAdmin
 from authentication.permissions import IsAccountOwner
@@ -10,28 +12,24 @@ from authentication.serializers import AccountSerializer, ClientSerializer, Mast
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    lookup_field = 'username'
+    permission_classes = (IsAuthenticated, )
+    authentication_classes = (JSONWebTokenAuthentication, )
+    lookup_field = 'id'
     queryset = User.objects.all()
-    print queryset
     serializer_class = AccountSerializer
-    #print "AccountSerializer mein aaa gaya", viewsets.ModelViewSet
     def get_permissions(self):
-        #print "permissions mein aaa gaya", self.request.method, permissions.SAFE_METHODS
         if self.request.method in permissions.SAFE_METHODS:
             return (permissions.AllowAny(),)
 
         if self.request.method == 'POST':
-            #print "In Post"
             return (permissions.AllowAny(),)
 
         return (permissions.IsAuthenticated(), IsAccountOwner(),)
 
     def create(self, request):
-        #print "create mein aaa gaya", self.serializer_class(data=request.data)," ji"
         serializer = self.serializer_class(data=request.data)
         print serializer
         if serializer.is_valid():
-            print "users mein aa gaya"
             User.objects.create_user(**serializer.validated_data)
 
             return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
@@ -71,17 +69,21 @@ class LoginView(views.APIView):
 
 class LogoutView(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
-
+    authentication_classes = (JSONWebTokenAuthentication, )
     def post(self, request, format=None):
         logout(request)
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 
 class ClientView(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated, )
+    authentication_classes = (JSONWebTokenAuthentication, )
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
 
 class MasterAdminView(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated, )
+    authentication_classes = (JSONWebTokenAuthentication, )
     queryset = MasterAdmin.objects.all()
     serializer_class = MasterAdminSerializer
