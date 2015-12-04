@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     # external django modules
     'rest_framework',
     'rest_framework_swagger',
+    'corsheaders',
     # django related apps
     'authentication',
     'administration',
@@ -50,6 +51,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -172,3 +174,7 @@ JWT_AUTH = {
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
+
+# cors headers settings for more settings refer: https://github.com/ottoyiu/django-cors-headers/
+
+CORS_ORIGIN_ALLOW_ALL = True

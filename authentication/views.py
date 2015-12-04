@@ -14,11 +14,13 @@ from authentication.serializers import AccountSerializer, ClientSerializer, Mast
 class AccountViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (JSONWebTokenAuthentication,)
-    lookup_field = 'id'
+    lookup_field = 'username'
     queryset = User.objects.all()
     serializer_class = AccountSerializer
 
     def get_permissions(self):
+        #permission_classes = (IsAuthenticated,)
+        #authentication_classes = (JSONWebTokenAuthentication,)
         if self.request.method in permissions.SAFE_METHODS:
             return (permissions.AllowAny(),)
 
