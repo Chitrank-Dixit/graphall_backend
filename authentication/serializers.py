@@ -45,11 +45,11 @@ class MasterAdminSerializer(serializers.ModelSerializer):
 
 class AccountSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
-    confirm_password = serializers.CharField(write_only=True, required=False)
+    #confirm_password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'password', 'confirm_password', 'date_joined', 'last_login')
+        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'password', 'date_joined', 'last_login')
         read_only_fields = ('date_joined', 'last_login',)
 
     def create(self, validated_data):
@@ -62,9 +62,9 @@ class AccountSerializer(serializers.ModelSerializer):
         instance.save()
 
         password = validated_data.get('password', None)
-        confirm_password = validated_data.get('confirm_password', None)
+        #confirm_password = validated_data.get('confirm_password', None)
 
-        if password and confirm_password and password == confirm_password:
+        if password:
             instance.set_password(password)
             instance.save()
 
