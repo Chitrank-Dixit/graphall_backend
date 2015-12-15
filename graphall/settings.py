@@ -144,6 +144,9 @@ REST_FRAMEWORK = {
     ),
 }
 
+
+# djangorestframework-jwt settings
+
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
     'rest_framework_jwt.utils.jwt_encode_handler',
@@ -178,3 +181,4 @@ JWT_AUTH = {
 # cors headers settings for more settings refer: https://github.com/ottoyiu/django-cors-headers/
 
 CORS_ORIGIN_ALLOW_ALL = True
+

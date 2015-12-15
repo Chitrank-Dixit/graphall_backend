@@ -4,5 +4,11 @@
     <data-source name="Django default" uuid="fcedba59-c59f-4029-9409-69603aff06f1">
       <first-sync>true</first-sync>
     </data-source>
+    <data-source name="PostgreSQL - graphall@localhost" uuid="7ff17ee7-ed60-4ba4-8b9f-720cada49420">
+      <secret-storage>master_key</secret-storage>
+      <user-name>chitrank</user-name>
+      <schema-pattern>graphall.pg_catalog graphall.public</schema-pattern>
+      <default-schemas>graphall.pg_catalog graphall.public</default-schemas>
+    </data-source>
   </component>
 </project>

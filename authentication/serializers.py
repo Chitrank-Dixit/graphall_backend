@@ -9,7 +9,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Client
-        fields = ('address', 'mobile_phone', 'user_type','plan')
+        fields = ('address', 'phone_number', 'user_type','plan')
         depth = 1  # increase the depth to navigate to mode detailed view in the api's
 
     def create(self, validated_data):
@@ -28,7 +28,7 @@ class ClientSerializer(serializers.ModelSerializer):
 class MasterAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = MasterAdmin
-        fields = ('address', 'mobile_phone', 'user_type')
+        fields = ('address', 'phone_number', 'user_type')
 
     def create(self, validated_data):
         pass
