@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from django.contrib.auth.models import User
 from authentication.models import Client, MasterAdmin
-from authentication.permissions import IsAccountOwner, IsMasterAdminOfSite
+from authentication.permissions import IsAccountOwner, IsMasterAdminOfSite, IsClientOfSite
 from authentication.serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer
 
 
@@ -80,6 +80,15 @@ class ClientView(viewsets.ModelViewSet):
     authentication_classes = (JSONWebTokenAuthentication,)
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+
+    def get_permissions(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            return (permissions.AllowAny(),)
+        return (permissions.IsAuthenticated(), IsClientOfSite(),)
+
+    def perform_create(self, serializer):
+        instance = serializer.save(user=self.request.user)
+        return super(ClientView, self).perform_create(serializer)
 
 
 class MasterAdminView(viewsets.ModelViewSet):

@@ -16,7 +16,7 @@ class UserProfile(models.Model):
 
 
 class Client(UserProfile):
-    plan = models.ForeignKey(Plan, related_name="planwise_clients")
+    plan = models.ForeignKey(Plan, related_name="planwise_clients", null=True)
     user_type = models.IntegerField(default=1)
 
 
