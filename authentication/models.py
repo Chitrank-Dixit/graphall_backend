@@ -2,7 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from administration.models import Plan
 from django.core.validators import RegexValidator
+from authentication.utils import ChoiceEnum
 
+class UserType(ChoiceEnum):
+    client = 1
+    masteradmin = 2
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
@@ -17,12 +21,12 @@ class UserProfile(models.Model):
 
 class Client(UserProfile):
     plan = models.ForeignKey(Plan, related_name="planwise_clients", null=True)
-    user_type = models.IntegerField(default=1)
+    user_type = models.CharField(max_length=1,choices=UserType.choices(),default='1')
 
 
 
 class MasterAdmin(UserProfile):
-    user_type = models.IntegerField(default=2)
+    user_type = models.CharField(max_length=1,choices=UserType.choices(),default='2')
 
 
 

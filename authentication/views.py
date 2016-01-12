@@ -1,11 +1,14 @@
 import json
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import permissions, status, views, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
-from django.contrib.auth.models import User
+from rest_framework_extensions.cache.decorators import (
+    cache_response
+)
 from authentication.models import Client, MasterAdmin
 from authentication.permissions import IsAccountOwner, IsMasterAdminOfSite, IsClientOfSite
 from authentication.serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer
@@ -76,11 +79,13 @@ class LogoutView(views.APIView):
 
 
 class ClientView(viewsets.ModelViewSet):
+
     permission_classes = (IsAuthenticated,)
     authentication_classes = (JSONWebTokenAuthentication,)
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
+    @cache_response()
     def get_permissions(self):
         if self.request.method in permissions.SAFE_METHODS:
             return (permissions.AllowAny(),)
@@ -97,7 +102,7 @@ class MasterAdminView(viewsets.ModelViewSet):
     queryset = MasterAdmin.objects.all()
     serializer_class = MasterAdminSerializer
 
-
+    @cache_response()
     def get_permissions(self):
         if self.request.method in permissions.SAFE_METHODS:
             return (permissions.AllowAny(),)

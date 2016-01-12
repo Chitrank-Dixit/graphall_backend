@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
+    'import_export',
     # django related apps
     'authentication',
     'administration',
@@ -130,7 +131,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
 # Grapelli Django admin template settings
-GRAPELLI_ADMIN_TITLE = "Graphall Admin"
+#GRAPELLI_ADMIN_TITLE = "Graphall Admin"
 
 # JSON Web Token's settings
 REST_FRAMEWORK = {
@@ -182,3 +183,14 @@ JWT_AUTH = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+# caching currently using python-memcached
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        'TIMEOUT': 60,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
+    }
+}
