@@ -1,10 +1,7 @@
-from django.contrib.auth import update_session_auth_hash
-
 from rest_framework import serializers
-
-from django.contrib.auth.models import User
-from administration.models import Plan
 from authentication.serializers import ClientSerializer
+from models import Plan
+
 
 
 class PlanSerializer(serializers.ModelSerializer):

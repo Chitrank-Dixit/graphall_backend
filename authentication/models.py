@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-from administration.models import Plan
 from django.core.validators import RegexValidator
-from authentication.utils import ChoiceEnum
+from administration.models import Plan
+from utils import ChoiceEnum
+
 
 class UserType(ChoiceEnum):
     client = 1

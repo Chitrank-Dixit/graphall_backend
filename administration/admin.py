@@ -1,8 +1,8 @@
 from django.contrib import admin
-from administration.models import Plan
-# Register your models here.
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+from models import Plan
+
 
 class PlanResource(resources.ModelResource):
 

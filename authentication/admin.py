@@ -1,5 +1,5 @@
 from django.contrib import admin
-from authentication.models import Client, MasterAdmin
+from models import Client, MasterAdmin
 
 
 class ClientAdmin(admin.ModelAdmin):

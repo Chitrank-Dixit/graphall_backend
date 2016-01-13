@@ -47,7 +47,8 @@ INSTALLED_APPS = (
     # django related apps
     'authentication',
     'administration',
-    'clients'
+    'clients',
+    'analytics'
 )
 
 MIDDLEWARE_CLASSES = (

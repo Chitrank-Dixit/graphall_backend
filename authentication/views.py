@@ -9,9 +9,9 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_extensions.cache.decorators import (
     cache_response
 )
-from authentication.models import Client, MasterAdmin
-from authentication.permissions import IsAccountOwner, IsMasterAdminOfSite, IsClientOfSite
-from authentication.serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer
+from models import Client, MasterAdmin
+from permissions import IsAccountOwner, IsMasterAdminOfSite, IsClientOfSite
+from serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer
 
 
 class AccountViewSet(viewsets.ModelViewSet):

@@ -1,9 +1,9 @@
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from administration.models import Plan
+from models import Client, MasterAdmin
 
-from authentication.models import Client, MasterAdmin
-from django.contrib.auth.models import User
 
 
 
