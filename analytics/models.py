@@ -14,7 +14,7 @@ class IndustryCategory(ChoiceEnum):
 
 
 class TrackingSource(models.Model):
-    tracking_id = models.CharField(max_length=20)
+    tracking_id = models.CharField(max_length=20,unique=True)
     name = models.CharField(max_length=50)
     website = models.CharField(max_length=200)
     industry_category = models.CharField(max_length=1,choices=IndustryCategory.choices(),default='1')
@@ -26,7 +26,7 @@ class TrackingSource(models.Model):
 
 class TrackingSourceDetails(models.Model):
     tracking_source = models.ForeignKey(TrackingSource)
-    page_url = models.CharField(max_length=200)
+    page_url = models.CharField(max_length=200, unique=True)
     page_views = models.IntegerField()
     page_clicks = models.IntegerField()
     creation_time = models.DateTimeField(auto_now=True)
