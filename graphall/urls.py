@@ -19,7 +19,7 @@ from django.contrib import admin
 from rest_framework_nested import routers
 from authentication.views import AccountViewSet, LoginView, LogoutView, ClientView, MasterAdminView
 from administration.views import PlanViewSet
-from analytics.views import TrackingSourceView, TrackingSourceDetailsView
+from analytics.views import TrackingSourceView, TrackingSourceDetailsView , track_source_details, test
 #from graphall.views import IndexView
 
 router = routers.SimpleRouter()
@@ -72,4 +72,10 @@ urlpatterns = [
     #url('^.*$', IndexView.as_view(), name='index'),
 
     url(r'^docs/', include('rest_framework_swagger.urls')),  # django rest swagger
+
+    #tracking page details from js script
+    url(r'^tracking_source_details/$', track_source_details, name='track_page_details'),
+
+    # testing the ajax requests from js
+    url(r'^test/', test, name='test')
 ]
