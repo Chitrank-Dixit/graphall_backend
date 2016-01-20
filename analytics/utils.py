@@ -4,6 +4,11 @@ from django.http import HttpRequest, HttpResponse
 __author__ = 'chitrankdixit'
 import inspect
 from enum import Enum
+from django.conf import settings
+from firebase import firebase
+
+FIREBASE_URL = settings.FIREBASE_URL
+
 
 whitedomain_list = ["http://localhost:9000","http://localhost:8000","http://web-staging.flyrobeapp.com","https://web-staging.flyrobeapp.com","http://localhost:63342","http://localhost:63343","http://central.flyrobeapp.com","http://flyrobe.com","https://flyrobe.com","http://web-central.flyrobeapp.com","http://app-central.flyrobeapp.com"]
 whitehost_list = ["central.flyrobeapp.com","staging.flyrobeapp.com","web-staging.flyrobeapp.com","web-central.flyrobeapp.com","app-central.flyrobeapp.com","flyrobe.com","localhost:8000","127.0.0.1:8000","web-central.flyrobeapp.com","app-central.flyrobeapp.com"]
@@ -47,3 +52,19 @@ def set_response_header(**kwargs):
             return True,kwargs['response']
     else:
         return False,kwargs['response']
+
+
+
+def send_notifications(subscribers, notification_markup):
+    context = {'markup': notification_markup}
+    fb = firebase.FirebaseApplication(FIREBASE_URL, None)
+
+    for user in subscribers:
+        url = '/users/%s/notification' % user.pk
+
+        try:
+            result = fb.post(url, context)
+
+        except Exception as e:
+            print e
+            print 'Firebase Notification not sent'

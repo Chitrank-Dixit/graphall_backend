@@ -52,11 +52,13 @@ def track_source_details(request):
         tracking_source = TrackingSource.objects.get(tracking_id=params['tracking_source'])
         params.update({'tracking_source': tracking_source})
         # either get the existing page tracking record or if not found just create it
-        tracking_source_details = TrackingSourceDetails.objects.get_or_create(**params)
+        tracking_source_details = TrackingSourceDetails.objects.get(page_url=params['page_url'])
         if tracking_source_details:
-            tracking_source_details[0].page_clicks = tracking_source_details[0].page_clicks + params['page_clicks']
-            tracking_source_details[0].page_views = tracking_source_details[0].page_views + params['page_views']
-            tracking_source_details[0].save()
+            tracking_source_details.page_clicks = int(tracking_source_details.page_clicks) + int(params['page_clicks'])
+            tracking_source_details.page_views = int(tracking_source_details.page_views) + int(params['page_views'])
+            tracking_source_details.save()
+        else:
+            TrackingSourceDetails.objects.create(**params)
 
 
         data['msg'] = 'success'

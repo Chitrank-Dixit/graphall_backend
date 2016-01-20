@@ -195,3 +195,18 @@ CACHES = {
         }
     }
 }
+
+# Firebase as a Notification DB
+
+SITE_URLS = {
+    'DEV': 'https://luminous-torch-7441.firebaseio.com/',
+    'LIVE': 'http://my-cool-project-live.willandskill.se'
+}
+
+FIREBASE_URLS = {
+    'DEV': 'https://luminous-torch-7441.firebaseio.com/',
+    'LIVE': 'https://my-cool-project-live.firebaseio.com'
+}
+
+SITE_URL = SITE_URLS['DEV']
+FIREBASE_URL = FIREBASE_URLS['DEV']
