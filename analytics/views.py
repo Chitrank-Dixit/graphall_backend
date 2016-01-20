@@ -52,32 +52,23 @@ def track_source_details(request):
         tracking_source = TrackingSource.objects.get(tracking_id=params['tracking_source'])
         params.update({'tracking_source': tracking_source})
         # either get the existing page tracking record or if not found just create it
-        tracking_source_details = TrackingSourceDetails.objects.get(page_url=params['page_url'])
+        tracking_source_details = TrackingSourceDetails.objects.get(page_url=str(params['page_url']))
         if tracking_source_details:
             tracking_source_details.page_clicks = int(tracking_source_details.page_clicks) + int(params['page_clicks'])
             tracking_source_details.page_views = int(tracking_source_details.page_views) + int(params['page_views'])
             tracking_source_details.save()
-        else:
-            TrackingSourceDetails.objects.create(**params)
 
 
-        data['msg'] = 'success'
+
+        data['msg'] = 'data updated'
     except Exception, e:
-        data['msg'] = 'failed'
+        try:
+            TrackingSourceDetails.objects.create(**params)
+            data['msg'] = 'data created'
+        except Exception, e:
+            data['msg'] = 'failed'
 
     response.write("%s"%(json.dumps(data)))
     return response
 
-
-
-@csrf_exempt
-def test(request):
-    status,response = set_response_header(request=request,response=HttpResponse(content_type='application/json'))
-    if not status:
-        return HttpResponseBadRequest(json.dumps({"Message":"Unauthorized request"}),content_type='application/json')
-    params = json.loads(request.body)
-    data = {'msg': 'success'}
-    data['data'] = params['hello']
-    response.write("%s"%(json.dumps(data)))
-    return response
 
