@@ -55,9 +55,9 @@ class TrackingSourceDetailsDailyResource(resources.ModelResource):
         model = TrackingSourceDetailsDaily
 
 class TrackingSourceDetailsDailyAdmin(ImportExportModelAdmin):
-    list_display = ['page_url','page_views','page_clicks','day' ,'creation_time', 'deletion_time', 'is_active']
-    list_filter = ['page_url','page_views','page_clicks','day','creation_time', 'deletion_time', 'is_active']
-    search_fields = ['page_url','page_views','page_clicks','day','creation_time', 'deletion_time', 'is_active']
+    list_display = ['get_tracking_source_tracking_id','get_tracking_source_name','page_url','page_views','page_clicks','day' ,'creation_time', 'deletion_time', 'is_active']
+    list_filter = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','day','creation_time', 'deletion_time', 'is_active']
+    search_fields = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','day','creation_time', 'deletion_time', 'is_active']
     resource_class = TrackingSourceDetailsDailyResource
 
 admin.site.register(TrackingSourceDetailsDaily, TrackingSourceDetailsDailyAdmin)
@@ -69,9 +69,9 @@ class TrackingSourceDetailsWeeklyResource(resources.ModelResource):
         model = TrackingSourceDetailsWeekly
 
 class TrackingSourceDetailsWeeklyAdmin(ImportExportModelAdmin):
-    list_display = ['page_url','page_views','page_clicks','creation_time', 'deletion_time', 'is_active']
-    list_filter = ['page_url','page_views','page_clicks','creation_time', 'deletion_time', 'is_active']
-    search_fields = ['page_url','page_views','page_clicks','creation_time', 'deletion_time', 'is_active']
+    list_display = ['get_tracking_source_tracking_id','get_tracking_source_name','page_url','page_views','page_clicks','creation_time', 'deletion_time', 'is_active']
+    list_filter = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','creation_time', 'deletion_time', 'is_active']
+    search_fields = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','creation_time', 'deletion_time', 'is_active']
     resource_class = TrackingSourceDetailsWeeklyResource
 
 admin.site.register(TrackingSourceDetailsWeekly, TrackingSourceDetailsWeeklyAdmin)
@@ -83,9 +83,9 @@ class TrackingSourceDetailsMonthlyResource(resources.ModelResource):
         model = TrackingSourceDetailsMonthly
 
 class TrackingSourceDetailsMonthlyAdmin(ImportExportModelAdmin):
-    list_display = ['page_url','page_views','page_clicks','creation_time', 'month' ,'deletion_time', 'is_active']
-    list_filter = ['page_url','page_views','page_clicks','creation_time', 'month','deletion_time', 'is_active']
-    search_fields = ['page_url','page_views','page_clicks','creation_time', 'month' ,'deletion_time', 'is_active']
+    list_display = ['get_tracking_source_tracking_id','get_tracking_source_name','page_url','page_views','page_clicks','creation_time', 'month' ,'deletion_time', 'is_active']
+    list_filter = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','creation_time', 'month','deletion_time', 'is_active']
+    search_fields = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','creation_time', 'month' ,'deletion_time', 'is_active']
     resource_class = TrackingSourceDetailsMonthlyResource
 
 admin.site.register(TrackingSourceDetailsMonthly, TrackingSourceDetailsMonthlyAdmin)
@@ -97,9 +97,9 @@ class TrackingSourceDetailsYearlyResource(resources.ModelResource):
         model = TrackingSourceDetailsYearly
 
 class TrackingSourceDetailsYearlyAdmin(ImportExportModelAdmin):
-    list_display = ['page_url','page_views','page_clicks','creation_time' ,'deletion_time', 'is_active']
-    list_filter = ['page_url','page_views','page_clicks','creation_time', 'deletion_time', 'is_active']
-    search_fields = ['page_url','page_views','page_clicks','creation_time' ,'deletion_time', 'is_active']
+    list_display = ['get_tracking_source_tracking_id','get_tracking_source_name','page_url','page_views','page_clicks','creation_time' ,'deletion_time', 'is_active']
+    list_filter = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','creation_time', 'deletion_time', 'is_active']
+    search_fields = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','creation_time' ,'deletion_time', 'is_active']
     resource_class = TrackingSourceDetailsYearlyResource
 
 admin.site.register(TrackingSourceDetailsYearly, TrackingSourceDetailsYearlyAdmin)
