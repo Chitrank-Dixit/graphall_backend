@@ -19,7 +19,7 @@ from django.contrib import admin
 from rest_framework_nested import routers
 from authentication.views import AccountViewSet, LoginView, LogoutView, ClientView, MasterAdminView
 from administration.views import PlanViewSet
-from analytics.views import TrackingSourceView, TrackingSourceDetailsView , track_source_details
+from analytics.views import TrackingSourceView, TrackingSourceDetailsLogView , track_source_details
 #from graphall.views import IndexView
 
 router = routers.SimpleRouter()
@@ -28,7 +28,7 @@ router.register(r'clients', ClientView)
 router.register(r'masteradmins', MasterAdminView)
 router.register(r'plans', PlanViewSet)
 router.register(r'tracking_source', TrackingSourceView)
-router.register(r'tracking_source_details', TrackingSourceDetailsView)
+router.register(r'tracking_source_details', TrackingSourceDetailsLogView)
 
 accounts_router = routers.NestedSimpleRouter(
     router, r'accounts', lookup='account'

@@ -3,8 +3,8 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
-from models import TrackingSource, TrackingSourceDetails
-from serializers import TrackingSourceSerializer, TrackingSourceDetailsSerializer
+from models import TrackingSource, TrackingSourceDetailsLog
+from serializers import TrackingSourceSerializer, TrackingSourceDetailsLogSerializer
 from utils import set_response_header
 
 class TrackingSourceView(viewsets.ModelViewSet):
@@ -24,11 +24,11 @@ class TrackingSourceView(viewsets.ModelViewSet):
         return super(TrackingSourceView, self).perform_create(serializer)
 
 
-class TrackingSourceDetailsView(viewsets.ModelViewSet):
+class TrackingSourceDetailsLogView(viewsets.ModelViewSet):
 
 
-    queryset = TrackingSourceDetails.objects.all()
-    serializer_class = TrackingSourceDetailsSerializer
+    queryset = TrackingSourceDetailsLog.objects.all()
+    serializer_class = TrackingSourceDetailsLogSerializer
 
 
     # def get_permissions(self):
@@ -52,7 +52,7 @@ def track_source_details(request):
         tracking_source = TrackingSource.objects.get(tracking_id=params['tracking_source'])
         params.update({'tracking_source': tracking_source})
         # either get the existing page tracking record or if not found just create it
-        tracking_source_details = TrackingSourceDetails.objects.get(page_url=str(params['page_url']))
+        tracking_source_details = TrackingSourceDetailsLog.objects.get(page_url=str(params['page_url']))
         if tracking_source_details:
             tracking_source_details.page_clicks = int(tracking_source_details.page_clicks) + int(params['page_clicks'])
             tracking_source_details.page_views = int(tracking_source_details.page_views) + int(params['page_views'])
@@ -63,7 +63,7 @@ def track_source_details(request):
         data['msg'] = 'data updated'
     except Exception, e:
         try:
-            TrackingSourceDetails.objects.create(**params)
+            TrackingSourceDetailsLog.objects.create(**params)
             data['msg'] = 'data created'
         except Exception, e:
             data['msg'] = 'failed'
