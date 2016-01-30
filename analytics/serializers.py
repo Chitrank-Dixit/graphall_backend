@@ -15,12 +15,14 @@ class TrackingSourceSerializer(serializers.ModelSerializer):
         fields = ('tracking_id','name','website', 'industry_category' ,'creation_time', 'deletion_time', 'is_active')
 
 
+    def create(self, validated_data):
+        self.initial_data['tracking_id'] = validated_data['tracking_id']
+        return TrackingSource.objects.create(**validated_data)
 
-    # def create(self, validated_data):
-    #     return MasterAdmin.objects.create(**validated_data)
-    #     # obj.save(user_id=validated_data['user'])
-    #     # return obj
-    #
+
+
+
+
     # def update(self, instance, validated_data):
     #     pass
 

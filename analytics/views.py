@@ -1,11 +1,13 @@
-import json
+import json, random
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
+from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
 from models import TrackingSource, TrackingSourceDetailsLog
 from serializers import TrackingSourceSerializer, TrackingSourceDetailsLogSerializer
 from utils import set_response_header
+
 
 class TrackingSourceView(viewsets.ModelViewSet):
 
@@ -20,7 +22,8 @@ class TrackingSourceView(viewsets.ModelViewSet):
     #     return (permissions.IsAuthenticated(), IsClientOfSite(),)
 
     def perform_create(self, serializer):
-        instance = serializer.save(user=self.request.user)
+        tracking_id = 'GPAL-'+''.join([str(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')) for i in xrange(6)])
+        instance = serializer.save(user=self.request.user, tracking_id = tracking_id)
         return super(TrackingSourceView, self).perform_create(serializer)
 
 
@@ -57,8 +60,6 @@ def track_source_details(request):
             tracking_source_details.page_clicks = int(tracking_source_details.page_clicks) + int(params['page_clicks'])
             tracking_source_details.page_views = int(tracking_source_details.page_views) + int(params['page_views'])
             tracking_source_details.save()
-
-
 
         data['msg'] = 'data updated'
     except Exception, e:

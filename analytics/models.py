@@ -1,6 +1,8 @@
+import random
 from django.db import models
 from utils import ChoiceEnum
 from datetime import datetime
+from django.contrib.auth.models import User
 # Create your models here.
 
 class IndustryCategory(ChoiceEnum):
@@ -48,13 +50,14 @@ class Tag(models.Model):
 
 
 class TrackingSource(models.Model):
-    tracking_id = models.CharField(max_length=20,unique=True)
+    tracking_id = models.CharField(max_length=20,unique=True, default='GPAL-'+''.join([str(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')) for i in xrange(6)]))
     name = models.CharField(max_length=50)
     website = models.CharField(max_length=200)
     industry_category = models.CharField(max_length=1,choices=IndustryCategory.choices(),default='1')
     creation_time = models.DateTimeField(auto_now=True)
     deletion_time = models.DateTimeField(auto_now=False, null=True, default=None)
     tag = models.ManyToManyField(Tag)
+    user = models.ForeignKey(User, null=True)
     is_active = models.BooleanField(default=True)
 
     def get_tag_details(self):
