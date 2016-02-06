@@ -15,6 +15,13 @@ class IndustryCategory(ChoiceEnum):
     Ecommerce = 7
     Realestate = 8
 
+class WebBrowser(ChoiceEnum):
+    chrome = 1
+    firefox = 2
+    safari = 3
+    ie = 4
+    opera = 5
+
 
 class Day(ChoiceEnum):
     Monday = 1
@@ -74,6 +81,7 @@ class TrackingSourceDetails(models.Model):
     page_url = models.CharField(max_length=200, unique=True)
     page_views = models.IntegerField()
     page_clicks = models.IntegerField()
+    web_browser = models.CharField(max_length=1,choices=WebBrowser.choices(), default='1')
     creation_time = models.DateTimeField(auto_now=True)
     deletion_time = models.DateTimeField(auto_now=False, null=True, default=None)
     is_active = models.BooleanField(default=True)
@@ -120,10 +128,3 @@ class TrackingSourceDetailsMonthly(TrackingSourceDetails):
 
 class TrackingSourceDetailsYearly(TrackingSourceDetails):
     a = models.CharField(max_length=1, default='1')
-
-
-
-
-
-
-
