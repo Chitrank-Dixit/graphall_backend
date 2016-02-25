@@ -1,6 +1,7 @@
 import re
+#from django.core.serializers import json
 from django.http import HttpRequest, HttpResponse
-
+import json
 __author__ = 'chitrankdixit'
 import inspect
 from enum import Enum
@@ -68,3 +69,14 @@ def send_notifications(subscribers, notification_markup):
         except Exception as e:
             print e
             print 'Firebase Notification not sent'
+
+
+class JsonResponse(HttpResponse):
+    '''
+        Handling content type for json no more to add content-type.
+    '''
+
+    def __init__(self, content={}, status=None,content_type='application/json'):
+        super(JsonResponse, self).__init__(
+            json.dumps(content),
+            status=status, content_type=content_type)

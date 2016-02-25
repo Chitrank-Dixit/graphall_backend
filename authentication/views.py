@@ -85,7 +85,7 @@ class ClientView(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
-    @cache_response()
+    #@cache_response()
     def get_permissions(self):
         if self.request.method in permissions.SAFE_METHODS:
             return (permissions.AllowAny(),)
@@ -102,7 +102,7 @@ class MasterAdminView(viewsets.ModelViewSet):
     queryset = MasterAdmin.objects.all()
     serializer_class = MasterAdminSerializer
 
-    @cache_response()
+    #@cache_response()
     def get_permissions(self):
         if self.request.method in permissions.SAFE_METHODS:
             return (permissions.AllowAny(),)

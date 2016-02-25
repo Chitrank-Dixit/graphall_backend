@@ -18,8 +18,8 @@ from django.contrib import admin
 
 from rest_framework_nested import routers
 from authentication.views import AccountViewSet, LoginView, LogoutView, ClientView, MasterAdminView
-from administration.views import PlanViewSet
-from analytics.views import TrackingSourceView, TrackingSourceDetailsLogView , track_source_details
+from administration.views import PlanViewSet, PlansListView
+from analytics.views import TrackingSourceView, TrackingSourceDetailsLogView, TrackingDataView ,track_source_details, get_custom_ranged_tracking_data
 #from graphall.views import IndexView
 
 router = routers.SimpleRouter()
@@ -28,7 +28,7 @@ router.register(r'clients', ClientView)
 router.register(r'masteradmins', MasterAdminView)
 router.register(r'plans', PlanViewSet)
 router.register(r'tracking_source', TrackingSourceView)
-router.register(r'tracking_source_details', TrackingSourceDetailsLogView)
+router.register(r'tracking_source_details_log', TrackingSourceDetailsLogView)
 
 accounts_router = routers.NestedSimpleRouter(
     router, r'accounts', lookup='account'
@@ -48,8 +48,8 @@ tracking_source_router = routers.NestedSimpleRouter(
     router, r'tracking_source', lookup='tracking_source'
 )
 
-tracking_source_details_router = routers.NestedSimpleRouter(
-    router, r'tracking_source_details', lookup='tracking_source_details'
+tracking_source_details_log_router = routers.NestedSimpleRouter(
+    router, r'tracking_source_details_log', lookup='tracking_source_details_log'
 )
 
 urlpatterns = [
@@ -64,17 +64,25 @@ urlpatterns = [
     url(r'^api/v1/', include(masteradmins_router.urls)),
     url(r'^api/v1/', include(plans_router.urls)),
     url(r'^api/v1/', include(tracking_source_router.urls)),
-    url(r'^api/v1/', include(tracking_source_details_router.urls)),
+    url(r'^api/v1/', include(tracking_source_details_log_router.urls)),
 
 
+    url(r'^api/v1/plan/list/$', PlansListView.as_view(), name='planlist'),
     url(r'^api/v1/auth/login/$', LoginView.as_view(), name='login'),
     url(r'^api/v1/auth/logout/$', LogoutView.as_view(), name='logout'),
     #url('^.*$', IndexView.as_view(), name='index'),
 
     url(r'^docs/', include('rest_framework_swagger.urls')),  # django rest swagger
 
-    #tracking page details from js script
+    # tracking page details from js script
     url(r'^tracking_source_details/$', track_source_details, name='track_page_details'),
+
+    # get custom ranged data of the tracking source
+    url(r'^get_custom_ranged_tracking_source_data/$', get_custom_ranged_tracking_data, name='custom_ranged_tracking_data'),
+
+    # get custom ranged data new API
+    url(r'^api/v1/tracking_data/$', TrackingDataView.as_view(), name='trackingdata')
+
 
 
 ]

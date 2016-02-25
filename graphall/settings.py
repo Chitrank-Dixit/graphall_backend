@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # external django modules
+    'debug_toolbar',
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
@@ -49,6 +50,7 @@ INSTALLED_APPS = (
     'administration',
     'clients',
     'analytics'
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -144,6 +146,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+
 }
 
 

@@ -5,6 +5,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 # Create your models here.
 
+
 class IndustryCategory(ChoiceEnum):
     Education = 1
     Medical = 2
@@ -14,6 +15,7 @@ class IndustryCategory(ChoiceEnum):
     Personal = 6
     Ecommerce = 7
     Realestate = 8
+
 
 class WebBrowser(ChoiceEnum):
     chrome = 1
@@ -55,7 +57,6 @@ class Tag(models.Model):
         return self.name
 
 
-
 class TrackingSource(models.Model):
     tracking_id = models.CharField(max_length=20,unique=True, default='GPAL-'+''.join([str(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')) for i in xrange(6)]))
     name = models.CharField(max_length=50)
@@ -70,31 +71,30 @@ class TrackingSource(models.Model):
     def get_tag_details(self):
         return " , ".join([p.name for p in self.tag.all()])
 
-
-
     def __unicode__(self):
         return self.name
 
 
 class TrackingSourceDetails(models.Model):
     tracking_source = models.ForeignKey(TrackingSource)
-    page_url = models.CharField(max_length=200, unique=True)
-    page_views = models.IntegerField()
-    page_clicks = models.IntegerField()
+    page_url = models.CharField(max_length=200, default=' ')
+    page_views = models.IntegerField(default=0)
+    page_clicks = models.IntegerField(default=0)
     web_browser = models.CharField(max_length=1,choices=WebBrowser.choices(), default='1')
+    event_date = models.DateField(auto_now=True , null=True)
     creation_time = models.DateTimeField(auto_now=True)
     deletion_time = models.DateTimeField(auto_now=False, null=True, default=None)
     is_active = models.BooleanField(default=True)
 
     def get_tracking_source_name(self):
-        if (self.tracking_source.name):
-            return "%s"%(self.tracking_source.name)
+        if self.tracking_source.name:
+            return "%s" % self.tracking_source.name
         else:
             return "Not Applicable"
 
     def get_tracking_source_tracking_id(self):
-        if (self.tracking_source.tracking_id):
-            return "%s"%(self.tracking_source.tracking_id)
+        if self.tracking_source.tracking_id:
+            return "%s" % self.tracking_source.tracking_id
         else:
             return "Not Applicable"
 
@@ -105,26 +105,46 @@ class TrackingSourceDetails(models.Model):
         abstract = True
 
 
-
-
 class TrackingSourceDetailsLog(TrackingSourceDetails):
     a = models.CharField(max_length=1, default='1')
 
 
+# database view django: https://docs.djangoproject.com/en/1.8/ref/models/options/#django.db.models.Options.managed
+# more on this: https://code.djangoproject.com/ticket/3361 (old)
+# also can be used the modules: https://pypi.python.org/pypi/django-database-view/0.1.2
 
-class TrackingSourceDetailsDaily(TrackingSourceDetails):
-    day = models.CharField(max_length=1,choices=Day.choices(), default='1')
-
-
-
-class TrackingSourceDetailsWeekly(TrackingSourceDetails):
-    a = models.CharField(max_length=1, default='1')
-
-
-
-class TrackingSourceDetailsMonthly(TrackingSourceDetails):
-    month = models.CharField(max_length=1,choices=Month.choices(), default='1')
+# class TrackingSourceDetailsFilter(TrackingSourceDetails):
+#     day = models.CharField(max_length=1, choices=Day.choices(), null=True, default='1')
+#
+#     class Meta:
+#         managed = False
 
 
-class TrackingSourceDetailsYearly(TrackingSourceDetails):
-    a = models.CharField(max_length=1, default='1')
+# class TrackingSourceDetailsDaily(models.Views):
+#     tracking_source = TrackingSourceDetails.tracking_source
+#     page_url = TrackingSourceDetails.page_url
+#     page_views  = TrackingSourceDetails.page_views
+#     page_clicks = TrackingSourceDetails.page_clicks
+#     web_browser = TrackingSourceDetails.web_browser
+#     event_date = TrackingSourceDetails.event_date
+#     is_active = TrackingSourceDetails.is_active
+
+
+# class TrackingSourceDetailsLog(TrackingSourceDetails):
+#     a = models.CharField(max_length=1, default='1')
+
+
+# class TrackingSourceDetailsDaily(TrackingSourceDetails):
+#     day = models.CharField(max_length=1, choices=Day.choices(), null=True, default='1')
+#
+#
+# class TrackingSourceDetailsWeekly(TrackingSourceDetails):
+#     a = models.CharField(max_length=1, default='1')
+#
+#
+# class TrackingSourceDetailsMonthly(TrackingSourceDetails):
+#     month = models.CharField(max_length=1,choices=Month.choices(), default='1')
+#
+#
+# class TrackingSourceDetailsYearly(TrackingSourceDetails):
+#     a = models.CharField(max_length=1, default='1')
