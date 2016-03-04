@@ -1,11 +1,27 @@
+diff-match-patch==20121119
 Django==1.8.6
+django-braces==1.8.1
 django-cors-headers==1.1.0
+django-debug-toolbar==1.4
 django-grappelli==2.7.2
+-e git+https://github.com/bmihelac/django-import-export.git@cfdb860b276071f1adffe4499e4deb75a3692ec0#egg=django_import_export-master
+django-oauth-toolkit==0.10.0
 django-rest-swagger==0.3.4
 djangorestframework==3.3.1
 djangorestframework-jwt==1.7.2
+drf-extensions==0.2.8
 drf-nested-routers==0.11.1
+enum==0.4.6
+oauthlib==1.0.3
+pdfkit==0.5.0
 psycopg2==2.6.1
 PyJWT==1.4.0
+python-firebase==1.2
+python-memcached==1.57
 PyYAML==3.11
+requests==2.9.1
+six==1.10.0
+sqlparse==0.1.18
+tablib==0.10.0
 wheel==0.24.0
+wkhtmltopdf==0.2
