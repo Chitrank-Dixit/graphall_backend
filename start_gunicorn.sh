@@ -1,19 +1,32 @@
-APPNAME=graphall
-APPDIR=/home/ubuntu/$APPNAME/
+#!/bin/bash
 
-LOGFILE=$APPDIR'gunicorn.log'
-ERRORFILE=$APPFIR'gunicorn-error.log'
+NAME="graphall"                                  # Name of the application
+DJANGODIR=/home/ubuntu/$NAME/             # Django project directory
+SOCKFILE=/home/ubuntu/$NAME/run/gunicorn.sock  # we will communicte using this unix socket
+#USER=hello                                        # the user to run as
+#GROUP=webapps                                     # the group to run as
+NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
+DJANGO_SETTINGS_MODULE=graphall.settings             # which settings file should Django use
+DJANGO_WSGI_MODULE=graphall.wsgi                     # WSGI module name
 
-NUM_WORKERS=3
+echo "Starting $NAME as `whoami`"
 
-ADDRESS=127.0.0.1:8000
+# Activate the virtual environment
+#cd $DJANGODIR
+#source ../bin/activate
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
-cd $APPDIR
+# Create the run directory if it doesn't exist
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -p $RUNDIR
 
-source ~/.bashrc
-workon $APPNAME
-
-exec gunicorn $APPNAME.wsgi:application \
--w $NUM_WORKERS --bind=$ADDRESS \
---log-level=debug \
---log-file=$LOGFILE 2>>$LOGFILE  1>>$ERRORFILE &
+# Start your Django Unicorn
+# Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+exec ../bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+  --name $NAME \
+  --workers $NUM_WORKERS \
+  --user=$USER --group=$GROUP \
+  --bind=unix:$SOCKFILE \
+  --log-level=debug \
+  --log-file=-
