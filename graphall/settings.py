@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*$9v_nizhgxzzfoj$@y$tbk=se+_&y0ta1#k)=^z8qbt^ptz6s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # external django modules
-    'debug_toolbar',
+    #'debug_toolbar',
     'rest_framework',
     'rest_framework_swagger',
     'corsheaders',
@@ -129,9 +129,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = './static/'
 
-STATIC_ROOT = '/static/'
+STATIC_ROOT = './static/'
 
 # Grapelli Django admin template settings
 #GRAPELLI_ADMIN_TITLE = "Graphall Admin"
