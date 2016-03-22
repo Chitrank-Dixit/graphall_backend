@@ -137,7 +137,7 @@ admin_dashboard = os.path.join(BASE_DIR, 'static')
 
 
 STATICFILES_DIRS = (
-    admin_dashboard
+    admin_dashboard,
 )
 
 # Grapelli Django admin template settings
