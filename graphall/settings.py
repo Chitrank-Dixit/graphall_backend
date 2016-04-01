@@ -100,16 +100,28 @@ WSGI_APPLICATION = 'graphall.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'graphall',
-        'USER': 'chitrank',
-        'PASSWORD': 'capirossi65',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+if 'TRAVIS' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql_psycopg2',
+            'NAME':     'travisci',
+            'USER':     'postgres',
+            'PASSWORD': '',
+            'HOST':     'localhost',
+            'PORT':     '',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'graphall',
+            'USER': 'chitrank',
+            'PASSWORD': 'capirossi65',
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
+    }
 
 
 # Internationalization
