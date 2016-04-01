@@ -9,6 +9,9 @@ services:
 install:
   - pip install -r requirements.txt
 # command to run tests
+before_script:
+  - psql -c "CREATE USER chitrank WITH PASSWORD 'capirossi65';"
+  - psql -c 'create database graphall;' -U chitrank
 script:
   - python manage.py test administration.tests
   - python manage.py test analytics.tests
