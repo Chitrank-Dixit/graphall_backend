@@ -104,7 +104,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'graphall',
-        'USER': 'chitrank',
+        'USER': 'postgres',
         'PASSWORD': 'capirossi65',
         'HOST': '127.0.0.1',
         'PORT': '5432',
