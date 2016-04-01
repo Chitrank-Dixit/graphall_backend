@@ -9,8 +9,12 @@ services:
 install:
   - pip install -r requirements.txt
 # command to run tests
+postgres:
+  adapter: postgresql
+  database: graphall
+  username: chitrank
+  password: capirossi65
 before_script:
-  - su - postgres
   - psql -c "CREATE USER chitrank WITH PASSWORD 'capirossi65';"
   - psql -c 'create database graphall;' -U chitrank
 script:
