@@ -15,7 +15,8 @@ postgres:
   username: chitrank
   password: capirossi65
 before_script:
-  - psql -c "CREATE USER chitrank WITH PASSWORD 'capirossi65';"
+  #- psql -c "CREATE USER chitrank WITH PASSWORD 'capirossi65';"
+  - cp config/database.travis.yml config/database.yml
   - psql -c 'create database graphall;' -U chitrank
 script:
   - python manage.py test administration.tests
