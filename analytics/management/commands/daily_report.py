@@ -1,7 +1,7 @@
 __author__ = 'chitrankdixit'
 from django.core.management.base import BaseCommand, CommandError
-from analytics.models import TrackingSourceDetailsDaily, TrackingSourceDetailsLog
-from datetime import datetime
+# from analytics.models import TrackingSourceDetailsDaily, TrackingSourceDetailsLog
+# from datetime import datetime
 
 
 class Command(BaseCommand):
@@ -9,12 +9,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        today_datetime = datetime.now()
-        tracking_log = TrackingSourceDetailsLog.objects.filter(event_date=today_datetime.strftime("%Y-%m-%d"))
-        import pdb; pdb.set_trace()
+        # today_datetime = datetime.now()
+        # tracking_log = TrackingSourceDetailsLog.objects.filter(event_date=today_datetime.strftime("%Y-%m-%d"))
+        # import pdb; pdb.set_trace()
 
 
-        self.stdout.write('THis is working fine now "%s"' % help)
+        self.stdout.write('THis is working fine now %s' % self.help)
 
     # def add_arguments(self, parser):
     #     parser.add_argument('poll_id', nargs='+', type=int)
