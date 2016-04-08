@@ -4,6 +4,7 @@ from django.shortcuts import render
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions, viewsets
+from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from models import TrackingSource, TrackingSourceDetailsLog, WebBrowser
@@ -43,7 +44,7 @@ class TrackingSourceDetailsLogView(viewsets.ModelViewSet):
     #     return super(TrackingSourceDetailsView, self).perform_create(serializer)
 
 
-class TrackingDataView(APIView):
+class TrackingDataView(ListAPIView):
 
     """
     API view to get the source details of the item.

@@ -7,6 +7,13 @@ class IsAccountOwner(permissions.BasePermission):
             return account == request.user
         return False
 
+class IsAdminUser(permissions.BasePermission):
+    """
+    Allows access only to admin users.
+    """
+    def has_permission(self, request, view):
+        return request.user and request.user.is_staff
+
 
 class IsMasterAdminOfSite(permissions.BasePermission):
     def has_object_permission(self, request, view, masteradmin):
