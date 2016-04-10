@@ -70,22 +70,10 @@ class ClientSerializer(serializers.ModelSerializer):
         instance.phone_number = validated_data.get('phone_number', instance.phone_number)
         instance.user_type = validated_data.get('user_type', instance.user_type)
         plan_data = self.initial_data['plan'] or instance.plan
-        # instance.tagline = validated_data.get('tagline', instance.tagline)
-
-        plan = Plan.objects.get(pk=plan_data)
-        instance.plan = plan
-
+        if self.initial_data['plan']:
+            plan = Plan.objects.get(pk=plan_data)
+            instance.plan = plan
         instance.save()
-
-        # password = validated_data.get('password', None)
-        # #confirm_password = validated_data.get('confirm_password', None)
-        #
-        # if password:
-        #     instance.set_password(password)
-        #     instance.save()
-        #
-        # update_session_auth_hash(self.context.get('request'), instance)
-
         return instance
 
     # def to_internal_value(self, data):
