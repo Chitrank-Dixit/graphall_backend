@@ -7,6 +7,12 @@ from authentication.models import MasterAdmin, Client
 
 __author__ = 'chitrankdixit'
 
+# need to make user related test cases as well
+# signup and signin user related test cases
+# logout test case
+
+
+
 
 class MasterAdminCreateTestCase(APITestCase):
     """
