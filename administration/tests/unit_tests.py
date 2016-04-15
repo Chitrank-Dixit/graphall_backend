@@ -5,8 +5,10 @@ from administration.models import Plan
 
 class PlanTestCase(TestCase):
     def setUp(self):
-        pass
+        self.plan = Plan.objects.create(name="Demo 1")
 
 
-    def plan_functions_test(self):
-        pass
+    def get_plan_name(self):
+        plan_name = Plan.objects.get(pk=self.plan.pk).__unicode__()
+        self.assertEqual(plan_name, 'Demo 1')
+
