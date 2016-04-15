@@ -9,6 +9,7 @@ class UserType(ChoiceEnum):
     client = 1
     masteradmin = 2
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     registered_type = models.IntegerField(default=0)
@@ -32,7 +33,6 @@ class UserProfile(models.Model):
 class Client(UserProfile):
     plan = models.ForeignKey(Plan, related_name="planwise_clients", null=True)
     user_type = models.CharField(max_length=1,choices=UserType.choices(),default='1')
-
 
 
 class MasterAdmin(UserProfile):

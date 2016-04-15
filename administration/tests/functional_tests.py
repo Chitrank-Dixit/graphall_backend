@@ -31,7 +31,6 @@ class PlanCreateTestCase(APITestCase):
         self.assertEqual(response.status_code, 201)
 
 
-
 class PlanListDetailDeleteUpdateTestCase(APITestCase):
     """
         This is the test case to check the TrackingDataView API is working well or not
@@ -54,9 +53,6 @@ class PlanListDetailDeleteUpdateTestCase(APITestCase):
         """
             Get List of all the Master Admin Registered
         """
-
-        # response = self.client.get('')
-
         payload = utils.jwt_payload_handler(self.user)
         token = utils.jwt_encode_handler(payload)
         response = self.client.get('/api/v1/plans/', HTTP_AUTHORIZATION="jwt " + str(token))
