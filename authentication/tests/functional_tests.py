@@ -11,6 +11,84 @@ __author__ = 'chitrankdixit'
 # signup and signin user related test cases
 # logout test case
 
+class UserCreateTestCase(APITestCase):
+    """
+        This is the test case to sign up the user aka user create
+    """
+
+    def create_user(self):
+        response = self.client.post('/api/v1/accounts/', data={"email": "abcdefg@gmail.com",
+            "username": "abcdefg",
+            "first_name": "abc",
+            "last_name": "defg",
+            "password": "abcdefg"})
+        self.assertEqual(response.status_code, 201)
+
+
+class UserListDetailUpdateDeleteTestCase(APITestCase):
+    """
+        This is the API to test the CRUD features of the user accounts
+    """
+    def setUp(self):
+        self.user = User.objects.create(
+            email="abcdefg@gmail.com",
+            username= "abcdefg",
+            first_name= "abc",
+            last_name="defg",
+            password= "abcdefg"
+        )
+
+    def get_user_list(self):
+        """
+            Get List of all the User Registered
+        """
+
+        # response = self.client.get('')
+
+        # payload = utils.jwt_payload_handler(self.user)
+        # token = utils.jwt_encode_handler(payload)
+        response = self.client.get('/api/v1/accounts/')
+        self.assertEqual(response.status_code, 200)
+
+    def get_user_details(self):
+        """
+            Get detail of a  user
+        """
+        # payload = utils.jwt_payload_handler(self.user)
+        # token = utils.jwt_encode_handler(payload)
+        response = self.client.get('/api/v1/accounts/' + str(self.user.id) + '/')
+        self.assertEqual(response.status_code, 200)
+
+    def delete_user(self):
+        """
+            Delete the user
+        """
+        # payload = utils.jwt_payload_handler(self.user)
+        # token = utils.jwt_encode_handler(payload)
+        response = self.client.delete('/api/v1/accounts/' + str(self.user.id) + '/')
+        self.assertEqual(response.status_code, 204)
+
+    def update_user(self):
+        """
+            update the user
+        """
+        # payload = utils.jwt_payload_handler(self.user)
+        # token = utils.jwt_encode_handler(payload)
+        response = self.client.put('/api/v1/accounts/' + str(self.user.id) + '/',
+                                   data={"email":"abcdefgi@gmail.com","username": "abcdefgi",
+                                        "first_name": "abcd","last_name":"defgi", "password":"abcdefghi"})
+        self.assertEqual(response.status_code, 200)
+
+    def partial_update_user(self):
+        """
+            partial update the user
+        """
+        # payload = utils.jwt_payload_handler(self.user)
+        # token = utils.jwt_encode_handler(payload)
+        response = self.client.patch('/api/v1/accounts/' + str(self.user.id) + '/',
+                                     data={"email": "xyz@abcd.com"})
+        self.assertEqual(response.status_code, 200)
+
 
 
 
@@ -219,4 +297,28 @@ class ClientListDetailDeleteUpdateCase(APITestCase):
         token = utils.jwt_encode_handler(payload)
         response = self.client.patch('/api/v1/clients/' + str(self.clients.id) + '/',
                                      data={"plan": self.plan.id,"address": "Sudama Nagar Indore"}, HTTP_AUTHORIZATION="jwt " + str(token))
+        self.assertEqual(response.status_code, 200)
+
+
+class SignInUserTestCase(APITestCase):
+    """
+        This is the Test case to check that user is successfully logged in or not
+    """
+    def setUp(self):
+        self.csrf_client = APIClient(enforce_csrf_checks=True)
+        self.user = User.objects.create(
+            email="abcdefg@gmail.com",
+            username= "abcdefg",
+            first_name= "abc",
+            last_name="defg",
+            password= "abcdefg"
+        )
+
+    def signin_user(self):
+        payload = utils.jwt_payload_handler(self.user)
+        token = utils.jwt_encode_handler(payload)
+        # "plan": self.plan.id cause django was expecting an id there and I was giving the plan instance
+        response = self.client.post('/api/v1/auth/login/',
+                                    data={"username": self.user.username, "password":self.user.password},
+                                    HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 200)
