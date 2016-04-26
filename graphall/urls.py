@@ -73,6 +73,7 @@ urlpatterns = [
     #url('^.*$', IndexView.as_view(), name='index'),
 
     url(r'^docs/', include('rest_framework_swagger.urls')),  # django rest swagger
+    #url(r'^docs/', include('rest_framework_docs.urls')),
 
     # tracking page details from js script
     url(r'^tracking_source_details/$', track_source_details, name='track_page_details'),
