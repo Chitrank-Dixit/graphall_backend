@@ -1,5 +1,6 @@
 import random
 from django.db import models
+from authentication.models import Client
 from utils import ChoiceEnum
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -65,7 +66,7 @@ class TrackingSource(models.Model):
     creation_time = models.DateTimeField(auto_now=True)
     deletion_time = models.DateTimeField(auto_now=False, null=True, default=None)
     tag = models.ManyToManyField(Tag)
-    user = models.ForeignKey(User, null=True)
+    client = models.ForeignKey(Client, null=True)
     is_active = models.BooleanField(default=True)
 
     def get_tag_details(self):
