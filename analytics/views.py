@@ -25,7 +25,7 @@ class TrackingSourceView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         tracking_id = 'GPAL-' + ''.join(
             [str(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')) for i in xrange(6)])
-        instance = serializer.save(user=self.request.user, tracking_id=tracking_id)
+        instance = serializer.save(client=self.request.user.client, tracking_id=tracking_id)
         return super(TrackingSourceView, self).perform_create(serializer)
 
 
