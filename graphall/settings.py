@@ -48,8 +48,8 @@ INSTALLED_APPS = (
     # django related apps
     'authentication',
     'administration',
-    'clients',
-    'analytics'
+    'analytics',
+    'miscellaneous'
 
 )
 
