@@ -1,6 +1,8 @@
 from django.db import models
+from miscellaneous.models import TimeStampMixin
 
-class Plan(models.Model):
+
+class Plan(TimeStampMixin):
     """
         Usage plan to use
     """

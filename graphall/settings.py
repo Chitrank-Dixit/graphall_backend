@@ -39,9 +39,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     # external django modules
     #'debug_toolbar',
     'rest_framework',
+    'rest_framework_gis',
     'rest_framework_swagger',
     'corsheaders',
     'import_export',

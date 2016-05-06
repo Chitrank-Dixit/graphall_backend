@@ -1,6 +1,7 @@
 import random
 from django.db import models
 from authentication.models import Client
+from miscellaneous.models import TimeStampMixin
 from utils import ChoiceEnum
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -51,14 +52,14 @@ class Month(ChoiceEnum):
     December = 12
 
 
-class Tag(models.Model):
+class Tag(TimeStampMixin):
     name = models.CharField(max_length=100, unique=True)
 
     def __unicode__(self):
         return self.name
 
 
-class TrackingSource(models.Model):
+class TrackingSource(TimeStampMixin):
     tracking_id = models.CharField(max_length=20,unique=True, default='GPAL-'+''.join([str(random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')) for i in xrange(6)]))
     name = models.CharField(max_length=50)
     website = models.CharField(max_length=200)
@@ -76,7 +77,7 @@ class TrackingSource(models.Model):
         return self.name
 
 
-class TrackingSourceDetails(models.Model):
+class TrackingSourceDetails(TimeStampMixin):
     tracking_source = models.ForeignKey(TrackingSource)
     page_url = models.CharField(max_length=200, default=' ')
     page_views = models.IntegerField(default=0)

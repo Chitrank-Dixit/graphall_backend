@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from administration.models import Plan
+from miscellaneous.models import TimeStampMixin
 from utils import ChoiceEnum
 
 
@@ -10,7 +11,7 @@ class UserType(ChoiceEnum):
     masteradmin = 2
 
 
-class UserProfile(models.Model):
+class UserProfile(TimeStampMixin):
     user = models.OneToOneField(User)
     registered_type = models.IntegerField(default=0)
     address = models.CharField(max_length=100, null=True)
