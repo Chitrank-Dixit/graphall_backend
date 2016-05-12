@@ -1,4 +1,5 @@
 import json
+from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -9,7 +10,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_extensions.cache.decorators import (
     cache_response
 )
-from models import Client, MasterAdmin
+from models import Client, MasterAdmin, UserType
 from permissions import IsAccountOwner, IsMasterAdminOfSite, IsClientOfSite
 from serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer
 
@@ -50,7 +51,13 @@ class LoginView(views.APIView):
         data = json.loads(request.body)
         username = data.get('username', None)
         password = data.get('password', None)
-        account = authenticate(username=username, password=password)
+        user_type = data.get('user_type', None)
+        if user_type == UserType.client:
+            settings.AUTH_USER_MODEL = 'authentication.Client'
+            account = authenticate(username=username, password=password)
+        elif user_type == UserType.masteradmin:
+            settings.AUTH_USER_MODEL = 'authentication.MasterAdmin'
+            account = authenticate(username=username, password=password)
 
         if account is not None:
             if account.is_active:

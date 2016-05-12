@@ -235,3 +235,7 @@ FIREBASE_URLS = {
 
 SITE_URL = SITE_URLS['DEV']
 FIREBASE_URL = FIREBASE_URLS['DEV']
+
+
+# authentication model
+AUTH_USER_MODEL = 'auth.User'

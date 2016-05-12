@@ -11,7 +11,7 @@ class UserType(ChoiceEnum):
     masteradmin = 2
 
 
-class UserProfile(TimeStampMixin):
+class UserProfile(models.Model):
     user = models.OneToOneField(User)
     registered_type = models.IntegerField(default=0)
     address = models.CharField(max_length=100, null=True)
