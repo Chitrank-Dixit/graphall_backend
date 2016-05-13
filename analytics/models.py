@@ -1,6 +1,6 @@
 import random
 from django.db import models
-from authentication.models import Client
+from authentication.models import Client, MasterAdmin
 from miscellaneous.models import TimeStampMixin
 from utils import ChoiceEnum
 from datetime import datetime
@@ -68,6 +68,7 @@ class TrackingSource(TimeStampMixin):
     deletion_time = models.DateTimeField(auto_now=False, null=True, default=None)
     tag = models.ManyToManyField(Tag)
     client = models.ForeignKey(Client, null=True)
+    master_admin = models.ForeignKey(MasterAdmin, null=True)
     is_active = models.BooleanField(default=True)
 
     def get_tag_details(self):

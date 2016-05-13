@@ -2,7 +2,6 @@ diff-match-patch==20121119
 Django==1.8.6
 django-braces==1.8.1
 django-cors-headers==1.1.0
-django-debug-toolbar==1.4
 django-grappelli==2.7.2
 -e git+https://github.com/bmihelac/django-import-export.git@cfdb860b276071f1adffe4499e4deb75a3692ec0#egg=django_import_export-master
 django-oauth-toolkit==0.10.0

@@ -55,6 +55,7 @@ tracking_source_details_log_router = routers.NestedSimpleRouter(
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/docs', include('django.contrib.admindocs.urls')),
     url(r'^api-token-auth/', 'rest_framework_jwt.views.obtain_jwt_token'),  # JSON Web Tokens
     url(r'^api-token-refresh/', 'rest_framework_jwt.views.refresh_jwt_token'),  # JSON Web Tokens
     url(r'^api-token-verify/', 'rest_framework_jwt.views.verify_jwt_token'),  # JSON Web Tokens
