@@ -11,13 +11,24 @@ class UserType(ChoiceEnum):
     client = 1
     masteradmin = 2
 
+class AccessLevelChoices(ChoiceEnum):
+    admin = 1
+    manager = 2
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
     registered_type = models.IntegerField(default=0)
-    address = models.CharField(max_length=100, null=True)
+    address_line_1 = models.CharField(max_length=100, null=True)
+    address_line_2 = models.CharField(max_length=100, null=True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999999'. Up to 15 digits allowed.")
     phone_number = models.CharField(validators=[phone_regex], blank=True, max_length=15)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10)
+    country = models.CharField(max_length=100)
+    website = models.CharField(max_length=100)
+
 
     def get_user_name(self):
         if(self.user.username):
@@ -35,6 +46,7 @@ class UserProfile(models.Model):
 class Client(UserProfile):
     plan = models.ForeignKey(Plan, related_name="planwise_clients", null=True)
     user_type = models.CharField(max_length=1,choices=UserType.choices(),default='1')
+    access_level = models.CharField(max_length=1,choices=AccessLevelChoices.choices())
 
 
 class MasterAdmin(UserProfile):
