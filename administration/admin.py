@@ -10,9 +10,9 @@ class PlanResource(resources.ModelResource):
         model = Plan
 
 class PlanAdmin(ImportExportModelAdmin):
-    list_display = ['name', 'creation_time', 'deletion_time']
-    list_filter = ['name', 'creation_time', 'deletion_time']
-    search_fields = ['name', 'creation_time', 'deletion_time']
+    list_display = ['name']
+    list_filter = ['name']
+    search_fields = ['name']
     resource_class = PlanResource
 
 admin.site.register(Plan, PlanAdmin)
