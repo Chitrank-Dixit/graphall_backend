@@ -27,3 +27,4 @@ sqlparse==0.1.18
 tablib==0.10.0
 wheel==0.24.0
 wkhtmltopdf==0.2
+selenium==2.53.2
