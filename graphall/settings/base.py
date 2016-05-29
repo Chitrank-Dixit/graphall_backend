@@ -11,8 +11,12 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import json
 import os
 import datetime
+from django.core.exceptions import ImproperlyConfigured
+from gunicorn._compat import FileNotFoundError
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,8 +24,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
+def get_secret(setting):
+    file_path = str(BASE_DIR + '/settings' + '/secrets.json')
+    try:
+        with open(file_path) as file:
+            secrets = json.loads(file.read())
+            try:
+                return secrets[setting]
+            except KeyError:
+                error_message = "Set the {0} environment variable".format(setting)
+                raise ImproperlyConfigured(error_message)
+    except FileNotFoundError:
+        error_message = "secrets.json not found in settings folder"
+        raise ImproperlyConfigured(error_message)
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*$9v_nizhgxzzfoj$@y$tbk=se+_&y0ta1#k)=^z8qbt^ptz6s'
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,7 +50,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = (
+THIRD_PARTY_APPS = (
     'grappelli',
     'django.contrib.admin',
     'django.contrib.admindocs',
@@ -42,19 +61,22 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.gis',
     # external django modules
-    #'debug_toolbar',
     'rest_framework',
     'rest_framework_gis',
     'rest_framework_swagger',
     'corsheaders',
     'import_export',
-    # django related apps
+
+)
+
+CUSTOM_APPS = (
     'authentication',
     'administration',
     'analytics',
-    'miscellaneous'
-
+    'miscellaneous',
 )
+
+INSTALLED_APPS = THIRD_PARTY_APPS + CUSTOM_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -114,17 +136,6 @@ if 'TRAVIS' in os.environ:
             'PORT':     '',
         }
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': 'graphall',
-            'USER': 'chitrank',
-            'PASSWORD': 'capirossi65',
-            'HOST': '127.0.0.1',
-            'PORT': '5432',
-        }
-    }
 
 
 # Internationalization
@@ -148,11 +159,12 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = '/static/'
 
-admin_dashboard = os.path.join(BASE_DIR, 'static')
+#admin_dashboard = os.path.join(BASE_DIR, 'static')
 
+STATIC_FILES_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 STATICFILES_DIRS = (
-    admin_dashboard,
+    os.path.join(STATIC_FILES_DIR, 'static'),
 )
 
 # Grapelli Django admin template settings
