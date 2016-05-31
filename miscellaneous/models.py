@@ -30,9 +30,9 @@ class AddressMixin(models.Model):
     geo_coordinates = PointField(null=True, blank=True,)
     pin_code = models.CharField(max_length=20, blank=True)  # TODO: clean the data and reduce the max_length
     address = models.TextField(max_length=200, blank=True)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
+    city = models.CharField(max_length=100, blank=True)
+    state = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
 
     class Meta:
         abstract = True

@@ -51,13 +51,7 @@ class LoginView(views.APIView):
         data = json.loads(request.body)
         username = data.get('username', None)
         password = data.get('password', None)
-        user_type = data.get('user_type', None)
-        if user_type == UserType.client:
-            settings.AUTH_USER_MODEL = 'authentication.Client'
-            account = authenticate(username=username, password=password)
-        elif user_type == UserType.masteradmin:
-            settings.AUTH_USER_MODEL = 'authentication.MasterAdmin'
-            account = authenticate(username=username, password=password)
+        account = authenticate(username=username, password=password)
 
         if account is not None:
             if account.is_active:

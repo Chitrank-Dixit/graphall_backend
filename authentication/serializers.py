@@ -2,9 +2,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from administration.models import Plan
-from models import Client, MasterAdmin
-
-
+from models import Client, MasterAdmin, AccessLevelChoices
 
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -56,7 +54,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Client
-        fields = ('address', 'phone_number', 'user_type','plan', 'user')
+        fields = ('plan', 'user','access_level')
         depth = 1  # increase the depth to navigate to mode detailed view in the api's
 
     def create(self, validated_data):
