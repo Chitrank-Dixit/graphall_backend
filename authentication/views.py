@@ -80,7 +80,6 @@ class LogoutView(views.APIView):
 
 
 class ClientView(viewsets.ModelViewSet):
-
     permission_classes = (IsAuthenticated,)
     authentication_classes = (JSONWebTokenAuthentication,)
     queryset = Client.objects.all()

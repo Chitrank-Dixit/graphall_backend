@@ -4,23 +4,23 @@ from django.test import TestCase
 from authentication.models import MasterAdmin, Client
 
 
-class MasterAdminTestCase(TestCase):
-    def setUp(self):
-        self.user = User.objects.create(
-            username='cristiano',
-            password='ronaldo'
-        )
-        self.masteradmin = MasterAdmin.objects.create(
-            user=self.user,
-            registered_type=1,
-            address="Sudama Nagar Indore",
-            phone_number="+919769730095",
-            user_type="2"
-        )
-
-    def master_admin_username(self):
-        master_admin_username = MasterAdmin.objects.get(pk=self.masteradmin.pk).__unicode__()
-        self.assertEqual(master_admin_username, self.masteradmin.user.username)
+# class MasterAdminTestCase(TestCase):
+#     def setUp(self):
+#         self.user = User.objects.create(
+#             username='cristiano',
+#             password='ronaldo'
+#         )
+#         self.masteradmin = MasterAdmin.objects.create(
+#             user=self.user,
+#             registered_type=1,
+#             address="Sudama Nagar Indore",
+#             phone_number="+919769730095",
+#             user_type="2"
+#         )
+#
+#     def master_admin_username(self):
+#         master_admin_username = MasterAdmin.objects.get(pk=self.masteradmin.pk).__unicode__()
+#         self.assertEqual(master_admin_username, self.masteradmin.user.username)
 
 
 class ClientTestCase(TestCase):

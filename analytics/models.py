@@ -64,8 +64,6 @@ class TrackingSource(TimeStampMixin):
     name = models.CharField(max_length=50)
     website = models.CharField(max_length=200)
     industry_category = models.CharField(max_length=1,choices=IndustryCategory.choices(),default='1')
-    creation_time = models.DateTimeField(auto_now=True)
-    deletion_time = models.DateTimeField(auto_now=False, null=True, default=None)
     tag = models.ManyToManyField(Tag)
     client = models.ForeignKey(Client, null=True)
     master_admin = models.ForeignKey(MasterAdmin, null=True)
@@ -85,8 +83,6 @@ class TrackingSourceDetails(TimeStampMixin):
     page_clicks = models.IntegerField(default=0)
     web_browser = models.CharField(max_length=1,choices=WebBrowser.choices(), default='1')
     event_date = models.DateField(auto_now=True , null=True)
-    creation_time = models.DateTimeField(auto_now=True)
-    deletion_time = models.DateTimeField(auto_now=False, null=True, default=None)
     is_active = models.BooleanField(default=True)
 
     def get_tracking_source_name(self):
@@ -109,7 +105,11 @@ class TrackingSourceDetails(TimeStampMixin):
 
 
 class TrackingSourceDetailsLog(TrackingSourceDetails):
-    a = models.CharField(max_length=1, default='1')
+
+    def __unicode__(self):
+        return self.tracking_source
+
+
 
 
 # database view django: https://docs.djangoproject.com/en/1.8/ref/models/options/#django.db.models.Options.managed

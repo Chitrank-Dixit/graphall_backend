@@ -27,9 +27,9 @@ class TrackingSourceResource(resources.ModelResource):
         model = TrackingSource
 
 class TrackingSourceAdmin(ImportExportModelAdmin):
-    list_display = ['tracking_id','name','website', 'industry_category' ,'creation_time', 'deletion_time', 'is_active','get_tag_details']
-    list_filter = ['tracking_id','name','website', 'industry_category' ,'creation_time', 'deletion_time', 'is_active', 'tag__name']
-    search_fields = ['tracking_id','name','website', 'industry_category' ,'creation_time', 'deletion_time', 'is_active', 'tag__name']
+    list_display = ['tracking_id','name','website', 'industry_category' , 'is_active','get_tag_details']
+    list_filter = ['tracking_id','name','website', 'industry_category' , 'is_active', 'tag__name']
+    search_fields = ['tracking_id','name','website', 'industry_category' , 'is_active', 'tag__name']
     resource_class = TrackingSourceResource
 
 admin.site.register(TrackingSource, TrackingSourceAdmin)
@@ -41,9 +41,9 @@ class TrackingSourceDetailsLogResource(resources.ModelResource):
         model = TrackingSourceDetailsLog
 
 class TrackingSourceDetailsLogAdmin(ImportExportModelAdmin):
-    list_display = ['get_tracking_source_tracking_id','get_tracking_source_name','page_url','page_views','page_clicks', 'web_browser','creation_time', 'deletion_time', 'is_active']
-    list_filter = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','web_browser','creation_time', 'deletion_time', 'is_active']
-    search_fields = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','web_browser','creation_time', 'deletion_time', 'is_active']
+    list_display = ['get_tracking_source_tracking_id','get_tracking_source_name','page_url','page_views','page_clicks', 'web_browser', 'is_active']
+    list_filter = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','web_browser', 'is_active']
+    search_fields = ['tracking_source__tracking_id','tracking_source__name','page_url','page_views','page_clicks','web_browser', 'is_active']
     resource_class = TrackingSourceDetailsLogResource
 
 admin.site.register(TrackingSourceDetailsLog, TrackingSourceDetailsLogAdmin)

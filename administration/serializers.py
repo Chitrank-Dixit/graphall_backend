@@ -5,7 +5,7 @@ from models import Plan
 
 
 class PlanSerializer(serializers.ModelSerializer):
-    planwise_clients = ClientSerializer(many=True)
+    #planwise_clients = ClientSerializer(many=True)
     class Meta:
         model = Plan
-        fields = ('name', 'creation_time', 'deletion_time','planwise_clients')
+        fields = ('name',)

@@ -12,7 +12,7 @@ class TrackingSourceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TrackingSource
-        fields = ('tracking_id','name','website', 'industry_category' ,'creation_time', 'deletion_time', 'is_active')
+        fields = ('tracking_id','name','website', 'industry_category' , 'is_active')
 
 
     def create(self, validated_data):
@@ -22,8 +22,8 @@ class TrackingSourceSerializer(serializers.ModelSerializer):
 
 
 
-
     # def update(self, instance, validated_data):
+
     #     pass
 
     # def to_internal_value(self, data):

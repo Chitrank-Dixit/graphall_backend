@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase, APIClient
 from rest_framework_jwt import utils
 from administration.models import Plan
 
+
 __author__ = 'chitrankdixit'
 
 
@@ -58,27 +59,27 @@ class PlanListDetailDeleteUpdateTestCase(APITestCase):
         response = self.client.get('/api/v1/plans/', HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 200)
 
-    def get_master_admin_detail(self):
+    def get_plan_detail(self):
         """
             Get detail of a master admin user
         """
         payload = utils.jwt_payload_handler(self.user)
         token = utils.jwt_encode_handler(payload)
-        response = self.client.get('/api/v1/masteradmins/' + str(self.plan.id) + '/',
+        response = self.client.get('/api/v1/plans/' + str(self.plan.id) + '/',
                                    HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 200)
 
-    def delete_master_admin(self):
+    def delete_plan(self):
         """
             Delete the master admin
         """
         payload = utils.jwt_payload_handler(self.user)
         token = utils.jwt_encode_handler(payload)
-        response = self.client.delete('/api/v1/masteradmins/' + str(self.plan.id) + '/',
+        response = self.client.delete('/api/v1/plans/' + str(self.plan.id) + '/',
                                       HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 204)
 
-    def update_master_admin(self):
+    def update_plan(self):
         """
             update the master admin
             name = models.CharField(max_length=50)      #Name of the plan
@@ -93,7 +94,7 @@ class PlanListDetailDeleteUpdateTestCase(APITestCase):
                                    data={"name": "Demo now", "creation_time": "2016-04-07 16:09:54.462705+05:30", "deletion_time": "2016-04-07 16:09:54.462705+05:30", "deleted": False }, HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 200)
 
-    def partial_update_master_admin(self):
+    def partial_plan(self):
         """
             partial update the master admin
         """

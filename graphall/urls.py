@@ -71,6 +71,7 @@ urlpatterns = [
     url(r'^api/v1/plan/list/$', PlansListView.as_view(), name='planlist'),
     url(r'^api/v1/auth/login/$', LoginView.as_view(), name='login'),
     url(r'^api/v1/auth/logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^api/v1/administration/', include('administration.urls', namespace='administration')),
     #url('^.*$', IndexView.as_view(), name='index'),
 
     url(r'^docs/', include('rest_framework_swagger.urls')),  # django rest swagger
