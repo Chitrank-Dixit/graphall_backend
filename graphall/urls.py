@@ -66,6 +66,10 @@ urlpatterns = [
     url(r'^api/v1/', include(plans_router.urls)),
     url(r'^api/v1/', include(tracking_source_router.urls)),
     url(r'^api/v1/', include(tracking_source_details_log_router.urls)),
+    url(r'^api/v1/', include('administration.urls')),
+    url(r'^api/v1/', include('analytics.urls')),
+    url(r'^api/v1/', include('authentication.urls')),
+
 
 
     url(r'^api/v1/plan/list/$', PlansListView.as_view(), name='planlist'),
@@ -84,7 +88,7 @@ urlpatterns = [
     url(r'^get_custom_ranged_tracking_source_data/$', get_custom_ranged_tracking_data, name='custom_ranged_tracking_data'),
 
     # get custom ranged data new API
-    url(r'^api/v1/tracking_data/$', TrackingDataView.as_view(), name='trackingdata')
+
 
 
 

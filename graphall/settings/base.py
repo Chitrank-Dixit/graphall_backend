@@ -43,9 +43,9 @@ def get_secret(setting):
 SECRET_KEY = get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['api.graphall.in', '127.0.0.1:8000', 'localhost:8000']
 
 
 # Application definition
@@ -66,6 +66,7 @@ THIRD_PARTY_APPS = (
     'rest_framework_swagger',
     'corsheaders',
     'import_export',
+    'versioning'
 
 )
 
@@ -88,6 +89,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'versioning.middleware.VersioningMiddleware',
 )
 
 ROOT_URLCONF = 'graphall.urls'
@@ -255,6 +257,13 @@ JWT_AUTH = {
 # cors headers settings for more settings refer: https://github.com/ottoyiu/django-cors-headers/
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+# celery settings
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
 
 # caching currently using python-memcached
 CACHES = {
