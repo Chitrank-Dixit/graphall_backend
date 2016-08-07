@@ -1,3 +1,4 @@
+celery==3.1.23
 diff-match-patch==20121119
 Django==1.8.6
 django-braces==1.8.1
