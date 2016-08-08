@@ -66,7 +66,7 @@ THIRD_PARTY_APPS = (
     'rest_framework_swagger',
     'corsheaders',
     'import_export',
-    'versioning'
+    #'versioning'
 
 )
 
@@ -89,7 +89,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'versioning.middleware.VersioningMiddleware',
+    #'versioning.middleware.VersioningMiddleware',
 )
 
 ROOT_URLCONF = 'graphall.urls'
