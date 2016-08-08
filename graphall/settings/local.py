@@ -1,6 +1,6 @@
 from .base import *
 
-DEBUG = False
+DEBUG = True
 
 LOCAL_APPS = (
     'debug_toolbar',

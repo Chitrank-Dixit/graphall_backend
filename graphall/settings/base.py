@@ -45,7 +45,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['api.graphall.in', '127.0.0.1:8000', 'localhost:8000']
+ALLOWED_HOSTS = ['api.graphall.in']
 
 
 # Application definition
