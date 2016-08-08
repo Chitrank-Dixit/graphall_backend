@@ -261,9 +261,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # celery settings
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 # caching currently using python-memcached
 CACHES = {

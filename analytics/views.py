@@ -60,7 +60,7 @@ class TrackingDataView(APIView):
         page_clicks = 0
         page_views = 0
         web_browser = []
-        add(4,4)
+        #add.delay(4,4)
         tracking_data = TrackingSourceDetailsLog.objects.filter(tracking_source__tracking_id=str(request.query_params['tracking_source_id']))
         for item in tracking_data:
             page_clicks += item.page_clicks
@@ -68,7 +68,7 @@ class TrackingDataView(APIView):
             web_browser.append(item.web_browser)
 
         response_json.update({"page_views": page_views, "page_clicks": page_clicks, "web_browser": web_browser})
-        add(4,4)
+        #add(4,4)
         return Response(response_json)
 
 

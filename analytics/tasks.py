@@ -5,5 +5,5 @@ import json
 
 @shared_task
 def add(x, y):
-    return x + y #json.dumps({'result':x + y})
+    return json.dumps({'result':x + y})
 
