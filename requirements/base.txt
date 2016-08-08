@@ -47,3 +47,4 @@ amqp==1.4.9
 anyjson==0.3.3 
 billiard==3.3.0.23 
 kombu==3.0.35
+django-versioning==0.7.5.0
