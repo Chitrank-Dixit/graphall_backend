@@ -7,7 +7,7 @@ DATABASES = {
         'NAME': get_secret('DATABASE_NAME'),
         'USER': get_secret('DATABASE_USER'),
         'PASSWORD': get_secret('DATABASE_PASSWORD'),
-        'HOST': '127.0.0.1',
+        'HOST': 'graphall-dev.c15tdklda9nm.us-west-2.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
