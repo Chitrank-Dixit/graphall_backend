@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from oauth2_provider.ext.rest_framework import OAuth2Authentication
 from rest_framework import permissions, status, views, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -16,17 +17,18 @@ from serializers import AccountSerializer, ClientSerializer, MasterAdminSerializ
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (JSONWebTokenAuthentication,)
-    lookup_field = 'username'
     queryset = User.objects.all()
     serializer_class = AccountSerializer
+    # authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (OAuth2Authentication, )
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'username'
 
     def get_permissions(self):
         #permission_classes = (IsAuthenticated,)
         #authentication_classes = (JSONWebTokenAuthentication,)
-        if self.request.method in permissions.SAFE_METHODS:
-            return (permissions.AllowAny(),)
+        # if self.request.method in permissions.SAFE_METHODS:
+        #     return (permissions.AllowAny(),)
 
         if self.request.method == 'POST':
             return (permissions.AllowAny(),)
@@ -80,10 +82,10 @@ class LogoutView(views.APIView):
 
 
 class ClientView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (JSONWebTokenAuthentication,)
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (OAuth2Authentication, )
 
     #@cache_response()
     def get_permissions(self):
@@ -97,10 +99,10 @@ class ClientView(viewsets.ModelViewSet):
 
 
 class MasterAdminView(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (JSONWebTokenAuthentication,)
     queryset = MasterAdmin.objects.all()
     serializer_class = MasterAdminSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (OAuth2Authentication, )
 
     #@cache_response()
     def get_permissions(self):

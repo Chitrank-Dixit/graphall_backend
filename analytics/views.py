@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
+from oauth2_provider.ext.rest_framework import OAuth2Authentication
 from rest_framework import permissions, viewsets, status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
@@ -16,6 +17,8 @@ from utils import set_response_header, JsonResponse
 class TrackingSourceView(viewsets.ModelViewSet):
     queryset = TrackingSource.objects.all()
     serializer_class = TrackingSourceSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (OAuth2Authentication, )
 
 
     # def get_permissions(self):
@@ -33,6 +36,8 @@ class TrackingSourceView(viewsets.ModelViewSet):
 class TrackingSourceDetailsLogView(viewsets.ModelViewSet):
     queryset = TrackingSourceDetailsLog.objects.all()
     serializer_class = TrackingSourceDetailsLogSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (OAuth2Authentication, )
 
 
     # def get_permissions(self):
@@ -50,6 +55,8 @@ class TrackingDataView(APIView):
     """
     API view to get the source details of the item.
     """
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (OAuth2Authentication, )
 
 
     def get(self, request, *args, **kwargs):

@@ -66,6 +66,9 @@ THIRD_PARTY_APPS = (
     'rest_framework_swagger',
     'corsheaders',
     'import_export',
+    'oauth2_provider',
+    'social.apps.django_app.default',
+    'rest_framework_social_oauth2',
     #'versioning'
 
 )
@@ -108,6 +111,13 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    # 'social.backends.facebook.FacebookOAuth2',
+    #'authentication.social_backends.FacebookV25OAuth2',
+    #'social.backends.google.GooglePlusAuth',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 # TEMPLATE_CONTEXT_PROCESSORS = (
@@ -218,6 +228,13 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 
+}
+
+# oauth2 settings
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
 }
 
 
