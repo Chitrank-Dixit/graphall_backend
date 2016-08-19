@@ -116,9 +116,30 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = [
     # 'social.backends.facebook.FacebookOAuth2',
     #'authentication.social_backends.FacebookV25OAuth2',
-    #'social.backends.google.GooglePlusAuth',
+    'social.backends.google.GooglePlusAuth',
+    'social.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'social.backends.twitter.TwitterOAuth',
 ]
+
+# Password validation
+# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
 
 # TEMPLATE_CONTEXT_PROCESSORS = (
 #     "django.core.context_processors.request",
@@ -131,6 +152,9 @@ AUTHENTICATION_BACKENDS = [
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
+
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -224,7 +248,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # not using jwt now
+        #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 
@@ -237,6 +264,22 @@ OAUTH2_PROVIDER = {
     'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
 }
 
+# python social auth settings
+
+SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.twitter.TwitterOAuth'
+
+)
+
+SOCIAL_AUTH_GOOGLE_PLUS_KEY = get_secret('SOCIAL_AUTH_GOOGLE_PLUS_KEY')
+SOCIAL_AUTH_GOOGLE_PLUS_SECRET = get_secret('SOCIAL_AUTH_GOOGLE_PLUS_SECRET')
+SOCIAL_AUTH_FACEBOOK_KEY = get_secret('SOCIAL_AUTH_FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = get_secret('SOCIAL_AUTH_FACEBOOK_SECRET')
+SOCIAL_AUTH_TWITTER_KEY = get_secret('SOCIAL_AUTH_TWITTER_KEY')
+SOCIAL_AUTH_TWITTER_SECRET = get_secret('SOCIAL_AUTH_TWITTER_SECRET')
+
+CLIENT_SECRET_DECRYPTION_KEY = get_secret('CLIENT_SECRET_DECRYPTION_KEY')
 
 # djangorestframework-jwt settings
 

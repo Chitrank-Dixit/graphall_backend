@@ -91,7 +91,7 @@ class MasterAdminSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MasterAdmin
-        fields = ('address', 'phone_number', 'user_type' , 'user')
+        fields = ('phone_number', 'user_type' , 'user')
 
 
 

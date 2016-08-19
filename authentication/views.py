@@ -1,9 +1,11 @@
 import json
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from oauth2_provider.ext.rest_framework import OAuth2Authentication
+from oauth2_provider.models import AccessToken
 from rest_framework import permissions, status, views, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -11,18 +13,27 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from rest_framework_extensions.cache.decorators import (
     cache_response
 )
+from rest_framework_social_oauth2.views import ConvertTokenView
+from social.apps.django_app.default.models import UserSocialAuth
+from authentication.simple_encryption import SimpleEncryptionDecryption
+from miscellaneous.mixins import CustomMetaDataMixin
 from models import Client, MasterAdmin, UserType
 from permissions import IsAccountOwner, IsMasterAdminOfSite, IsClientOfSite
 from serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer
 
 
-class AccountViewSet(viewsets.ModelViewSet):
+class AccountViewSet(CustomMetaDataMixin,viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = AccountSerializer
     # authentication_classes = (JSONWebTokenAuthentication,)
     authentication_classes = (OAuth2Authentication, )
     permission_classes = (IsAuthenticated,)
     lookup_field = 'username'
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return User.objects.all()
+        return User.objects.filter(pk=self.request.user.id)
 
     def get_permissions(self):
         #permission_classes = (IsAuthenticated,)
@@ -81,7 +92,7 @@ class LogoutView(views.APIView):
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 
-class ClientView(viewsets.ModelViewSet):
+class ClientView(CustomMetaDataMixin, viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -98,7 +109,7 @@ class ClientView(viewsets.ModelViewSet):
         return super(ClientView, self).perform_create(serializer)
 
 
-class MasterAdminView(viewsets.ModelViewSet):
+class MasterAdminView(CustomMetaDataMixin, viewsets.ModelViewSet):
     queryset = MasterAdmin.objects.all()
     serializer_class = MasterAdminSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -113,3 +124,40 @@ class MasterAdminView(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         instance = serializer.save(user=self.request.user)
         return super(MasterAdminView, self).perform_create(serializer)
+
+
+class CustomConvertTokenView(CustomMetaDataMixin, ConvertTokenView):
+    """
+        1. **authentication:** no
+        2. **authorization:** Any
+
+        **Suggested edits:**
+
+        1. Details about user in response?
+    """
+    def post(self, request, *args, **kwargs):
+        try:
+            encrypted_client_secret = request.data['client_secret_web']
+            request.data['client_secret'] = self.decrypt_client_secret(encrypted_client_secret)
+        except KeyError:
+            pass
+        # is_new_user = True
+
+        # user_social_auth = UserSocialAuth.objects.filter(uid=request.data['social_id'], provider=request.data['backend']).first()
+        # if user_social_auth is not None and user_social_auth.user.proformainvoice_set.count() > 0:
+        #     is_new_user = False
+        #response = super(self, ConvertTokenView)
+        response = super(CustomConvertTokenView, self).post(self, request, *args, **kwargs)
+
+        try:
+            user = AccessToken.objects.get(token=response.data['access_token']).user
+            response.data['user_id'] = user.id
+            response.data['email'] = user.email
+            response.data['name'] = user.first_name + " " + user.last_name
+        except KeyError:
+            pass
+
+        return response
+
+    def decrypt_client_secret(self, encrypted_client_secret):
+        return SimpleEncryptionDecryption.decrypt(encrypted_client_secret)

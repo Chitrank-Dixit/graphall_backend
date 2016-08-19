@@ -9,12 +9,13 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from analytics.tasks import add
+from miscellaneous.mixins import CustomMetaDataMixin
 from models import TrackingSource, TrackingSourceDetailsLog, WebBrowser
 from serializers import TrackingSourceSerializer, TrackingSourceDetailsLogSerializer
 from utils import set_response_header, JsonResponse
 
 
-class TrackingSourceView(viewsets.ModelViewSet):
+class TrackingSourceView(CustomMetaDataMixin, viewsets.ModelViewSet):
     queryset = TrackingSource.objects.all()
     serializer_class = TrackingSourceSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -33,7 +34,7 @@ class TrackingSourceView(viewsets.ModelViewSet):
         return super(TrackingSourceView, self).perform_create(serializer)
 
 
-class TrackingSourceDetailsLogView(viewsets.ModelViewSet):
+class TrackingSourceDetailsLogView(CustomMetaDataMixin , viewsets.ModelViewSet):
     queryset = TrackingSourceDetailsLog.objects.all()
     serializer_class = TrackingSourceDetailsLogSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -50,7 +51,7 @@ class TrackingSourceDetailsLogView(viewsets.ModelViewSet):
     #     return super(TrackingSourceDetailsView, self).perform_create(serializer)
 
 
-class TrackingDataView(APIView):
+class TrackingDataView(CustomMetaDataMixin , APIView):
 
     """
     API view to get the source details of the item.

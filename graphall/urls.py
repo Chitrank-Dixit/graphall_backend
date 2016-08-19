@@ -17,7 +17,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from rest_framework_nested import routers
-from authentication.views import AccountViewSet, LoginView, LogoutView, ClientView, MasterAdminView
+from authentication.views import AccountViewSet, LoginView, LogoutView, ClientView, MasterAdminView, \
+    CustomConvertTokenView
 from administration.views import PlanViewSet, PlansListView
 from analytics.views import TrackingSourceView, TrackingSourceDetailsLogView, TrackingDataView ,track_source_details, get_custom_ranged_tracking_data
 #from graphall.views import IndexView
@@ -57,6 +58,8 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # oauth authentication urls
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^o/convert-token/', CustomConvertTokenView.as_view() , name='convert-token'),
+    url(r'^auth/', include('rest_framework_social_oauth2.urls')),
 
     url(r'^admin/docs', include('django.contrib.admindocs.urls')),
     url(r'^api-token-auth/', 'rest_framework_jwt.views.obtain_jwt_token'),  # JSON Web Tokens
