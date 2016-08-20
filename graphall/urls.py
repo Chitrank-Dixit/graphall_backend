@@ -58,7 +58,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     # oauth authentication urls
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'^o/convert-token/', CustomConvertTokenView.as_view() , name='convert-token'),
+    #url(r'^o/convert-token/', CustomConvertTokenView.as_view() , name='convert-token'),
     url(r'^auth/', include('rest_framework_social_oauth2.urls')),
 
     url(r'^admin/docs', include('django.contrib.admindocs.urls')),

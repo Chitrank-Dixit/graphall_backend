@@ -57,19 +57,21 @@ class AccountViewSet(CustomMetaDataMixin,viewsets.ModelViewSet):
         }, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LoginView(views.APIView):
+class LoginView(CustomMetaDataMixin, views.APIView):
     queryset = User.objects.all()
+    serializer_class = AccountSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (OAuth2Authentication, )
 
     def post(self, request, format=None):
-        data = json.loads(request.body)
-        username = data.get('username', None)
-        password = data.get('password', None)
+        username = request.data.get('username', None)#data.get('username', None)
+        password = request.data.get('password', None)#data.get('password', None)
         account = authenticate(username=username, password=password)
 
         if account is not None:
             if account.is_active:
                 login(request, account)
-                serialized = AccountSerializer(account)
+                serialized = self.serializer_class(account)
                 return Response(serialized.data, status=status.HTTP_200_OK)
             else:
                 return Response({
@@ -83,9 +85,10 @@ class LoginView(views.APIView):
             }, status=status.HTTP_401_UNAUTHORIZED)
 
 
-class LogoutView(views.APIView):
+class LogoutView(CustomMetaDataMixin, views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (OAuth2Authentication, )
+    #authentication_classes = (JSONWebTokenAuthentication,)
 
     def post(self, request, format=None):
         logout(request)

@@ -43,7 +43,7 @@ class TrackingSourceDetailsLogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TrackingSourceDetailsLog
-        fields = ('tracking_source','page_url','page_views','page_clicks','web_browser', 'is_active','a')
+        fields = ('tracking_source','page_url','page_views','page_clicks','web_browser', 'is_active')
         depth = 1
 
 
