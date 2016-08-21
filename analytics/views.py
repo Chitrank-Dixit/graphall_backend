@@ -18,8 +18,8 @@ from utils import set_response_header, JsonResponse
 class TrackingSourceView(CustomMetaDataMixin, viewsets.ModelViewSet):
     queryset = TrackingSource.objects.all()
     serializer_class = TrackingSourceSerializer
-    permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (OAuth2Authentication, )
+    permission_classes = (permissions.IsAuthenticated,)
 
 
     # def get_permissions(self):
@@ -37,8 +37,8 @@ class TrackingSourceView(CustomMetaDataMixin, viewsets.ModelViewSet):
 class TrackingSourceDetailsLogView(CustomMetaDataMixin , viewsets.ModelViewSet):
     queryset = TrackingSourceDetailsLog.objects.all()
     serializer_class = TrackingSourceDetailsLogSerializer
-    permission_classes = (permissions.IsAuthenticated,)
     authentication_classes = (OAuth2Authentication, )
+    permission_classes = (permissions.IsAuthenticated,)
 
 
     # def get_permissions(self):
@@ -56,8 +56,9 @@ class TrackingDataView(CustomMetaDataMixin , APIView):
     """
     API view to get the source details of the item.
     """
-    permission_classes = (permissions.IsAuthenticated,)
+
     authentication_classes = (OAuth2Authentication, )
+    permission_classes = (permissions.IsAuthenticated,)
 
 
     def get(self, request, *args, **kwargs):
