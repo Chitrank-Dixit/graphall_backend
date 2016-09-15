@@ -325,6 +325,16 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
+# CELERYBEAT_SCHEDULE = {
+#     'add-every-30-seconds': {
+#         'task': 'analytics.tasks.print_continue',
+#         'schedule': datetime.timedelta(seconds=30),
+#         'args': (16, 16)
+#     },
+# }
+
+CELERY_TIMEZONE = 'UTC'
+
 # caching currently using python-memcached
 CACHES = {
     'default': {
