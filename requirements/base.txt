@@ -7,6 +7,8 @@ django-grappelli==2.7.2
 django-filter==0.13.0
 -e git+https://github.com/bmihelac/django-import-export.git@cfdb860b276071f1adffe4499e4deb75a3692ec0#egg=django_import_export-master
 django-oauth-toolkit==0.10.0
+django-redis-cache==1.6.5
+django-rest-framework-social-oauth2==1.0.4
 django-rest-swagger==0.3.4
 djangorestframework==3.3.1
 djangorestframework-gis==0.10.1
