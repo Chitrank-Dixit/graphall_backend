@@ -239,7 +239,7 @@ STATICFILES_DIRS = (
 )
 
 # Grapelli Django admin template settings
-GRAPELLI_ADMIN_TITLE = "Graphall Admin"
+GRAPPELLI_ADMIN_TITLE = "Graphall Admin"
 
 # JSON Web Token's settings
 REST_FRAMEWORK = {
