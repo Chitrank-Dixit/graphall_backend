@@ -1,4 +1,4 @@
 *.pyc
 .idea/
 .DS_Store
-./graphall/settings/secrets.json
+graphall/settings/secrets.json
