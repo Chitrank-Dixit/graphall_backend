@@ -69,6 +69,7 @@ THIRD_PARTY_APPS = (
     'oauth2_provider',
     'social.apps.django_app.default',
     'rest_framework_social_oauth2',
+    'djcelery'
     #'versioning'
 
 )
@@ -324,16 +325,20 @@ BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Asia/Kolkata'
+CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERY_TASK_RESULT_EXPIRES = None
 
-# CELERYBEAT_SCHEDULE = {
-#     'add-every-30-seconds': {
-#         'task': 'analytics.tasks.print_continue',
-#         'schedule': datetime.timedelta(seconds=30),
-#         'args': (16, 16)
-#     },
-# }
+CELERYBEAT_SCHEDULE = {
+    'celery-test': {
+        'task': 'analytics.tasks.gen_prime',
+        'schedule': datetime.timedelta(seconds=10),
+        'args': ((0,))
+    },
+}
 
-CELERY_TIMEZONE = 'UTC'
+#CELERY_TIMEZONE = 'UTC'
 
 # caching currently using python-memcached
 CACHES = {

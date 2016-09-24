@@ -8,7 +8,7 @@ from rest_framework import permissions, viewsets, status
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from analytics.tasks import add
+from analytics.tasks import add, gen_prime
 from miscellaneous.mixins import CustomMetaDataMixin
 from models import TrackingSource, TrackingSourceDetailsLog, WebBrowser
 from serializers import TrackingSourceSerializer, TrackingSourceDetailsLogSerializer
@@ -135,3 +135,17 @@ def get_custom_ranged_tracking_data(request):
 
     response_json.update({"page_views": page_views, "page_clicks": page_clicks, "web_browser": web_browser})
     return JsonResponse(response_json)
+
+
+
+def get_done(request):
+
+    #regular celery task
+    #add.delay(4,3)
+    add.apply_async((4,3))
+
+    # celery beat task
+    #gen_prime.delay(100)
+    gen_prime.apply_async((100,))
+
+    return JsonResponse({"message":"Started"})
