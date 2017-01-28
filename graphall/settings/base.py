@@ -116,7 +116,7 @@ TEMPLATES = [
 
 AUTHENTICATION_BACKENDS = [
     # 'social.backends.facebook.FacebookOAuth2',
-    #'authentication.social_backends.FacebookV25OAuth2',
+    'authentication.social_backends.FacebookV25OAuth2',
     'social.backends.google.GooglePlusAuth',
     'social.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',

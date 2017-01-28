@@ -16,7 +16,7 @@ class UserCreateTestCase(APITestCase):
         This is the test case to sign up the user aka user create
     """
 
-    def create_user(self):
+    def test_create_user(self):
         response = self.client.post('/api/v1/accounts/', data={"email": "abcdefg@gmail.com",
             "username": "abcdefg",
             "first_name": "abc",
@@ -38,7 +38,7 @@ class UserListDetailUpdateDeleteTestCase(APITestCase):
             password= "abcdefg"
         )
 
-    def get_user_list(self):
+    def test_get_user_list(self):
         """
             Get List of all the User Registered
         """
@@ -50,7 +50,7 @@ class UserListDetailUpdateDeleteTestCase(APITestCase):
         response = self.client.get('/api/v1/accounts/')
         self.assertEqual(response.status_code, 200)
 
-    def get_user_details(self):
+    def test_get_user_details(self):
         """
             Get detail of a  user
         """
@@ -59,7 +59,7 @@ class UserListDetailUpdateDeleteTestCase(APITestCase):
         response = self.client.get('/api/v1/accounts/' + str(self.user.id) + '/')
         self.assertEqual(response.status_code, 200)
 
-    def delete_user(self):
+    def test_delete_user(self):
         """
             Delete the user
         """
@@ -68,7 +68,7 @@ class UserListDetailUpdateDeleteTestCase(APITestCase):
         response = self.client.delete('/api/v1/accounts/' + str(self.user.id) + '/')
         self.assertEqual(response.status_code, 204)
 
-    def update_user(self):
+    def test_update_user(self):
         """
             update the user
         """
@@ -79,7 +79,7 @@ class UserListDetailUpdateDeleteTestCase(APITestCase):
                                         "first_name": "abcd","last_name":"defgi", "password":"abcdefghi"})
         self.assertEqual(response.status_code, 200)
 
-    def partial_update_user(self):
+    def test_partial_update_user(self):
         """
             partial update the user
         """
@@ -209,7 +209,7 @@ class ClientCreateTestCase(APITestCase):
         )
         self.plan = Plan.objects.create(name="Demo")
 
-    def client_create(self):
+    def test_client_create(self):
         """
             This test case would create the master admin
         """
@@ -246,7 +246,7 @@ class ClientListDetailDeleteUpdateCase(APITestCase):
             user_type="1"
         )
 
-    def get_client_list(self):
+    def test_get_client_list(self):
         """
             Get List of all the Master Admin Registered
         """
@@ -258,7 +258,7 @@ class ClientListDetailDeleteUpdateCase(APITestCase):
         response = self.client.get('/api/v1/clients/', HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 200)
 
-    def get_client_detail(self):
+    def test_get_client_detail(self):
         """
             Get detail of a master admin user
         """
@@ -268,7 +268,7 @@ class ClientListDetailDeleteUpdateCase(APITestCase):
                                    HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 200)
 
-    def delete_client(self):
+    def test_delete_client(self):
         """
             Delete the master admin
         """
@@ -278,7 +278,7 @@ class ClientListDetailDeleteUpdateCase(APITestCase):
                                       HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 204)
 
-    def update_client(self):
+    def test_update_client(self):
         """
             update the master admin
         """
@@ -289,7 +289,7 @@ class ClientListDetailDeleteUpdateCase(APITestCase):
                                          "user_type": "2"}, HTTP_AUTHORIZATION="jwt " + str(token))
         self.assertEqual(response.status_code, 200)
 
-    def partial_update_client(self):
+    def test_partial_update_client(self):
         """
             partial update the master admin
         """
@@ -314,7 +314,7 @@ class SignInUserTestCase(APITestCase):
             password= "abcdefg"
         )
 
-    def signin_user(self):
+    def test_signin_user(self):
         payload = utils.jwt_payload_handler(self.user)
         token = utils.jwt_encode_handler(payload)
         # "plan": self.plan.id cause django was expecting an id there and I was giving the plan instance

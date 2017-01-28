@@ -14,7 +14,7 @@ class TagTestCase(TestCase):
         self.tag = Tag.objects.create(name=self.tagname)
 
 
-    def get_tag_name(self):
+    def test_get_tag_name(self):
         tag_name = Tag.objects.get(pk=self.tag.pk).__unicode__()
         self.assertEqual(tag_name, self.tagname)
 
@@ -39,7 +39,7 @@ class TrackingSourceCase(TestCase):
             client_id = self.client.id
         )
 
-    def get_tracking_source_name(self):
+    def test_get_tracking_source_name(self):
         tracking_source_name = TrackingSource.objects.get(pk=self.tracking_source.pk).__unicode__()
         #import pdb;pdb.set_trace()
         self.assertEqual(str(tracking_source_name), self.tracking_source_name)
