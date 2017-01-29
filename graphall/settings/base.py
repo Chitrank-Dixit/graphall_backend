@@ -16,6 +16,7 @@ import os
 import datetime
 from django.core.exceptions import ImproperlyConfigured
 from gunicorn._compat import FileNotFoundError
+from social.pipeline import DEFAULT_AUTH_PIPELINE
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -115,8 +116,7 @@ TEMPLATES = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    # 'social.backends.facebook.FacebookOAuth2',
-    'authentication.social_backends.FacebookV25OAuth2',
+    'social.backends.facebook.FacebookOAuth2',
     'social.backends.google.GooglePlusAuth',
     'social.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -272,6 +272,23 @@ SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
     'social.backends.twitter.TwitterOAuth'
 
 )
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.social_auth.associate_by_email',
+    'authentication.social_pipeline.create_user_if_uid_exists',
+    'authentication.social_pipeline.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
+
+
+
 
 SOCIAL_AUTH_GOOGLE_PLUS_KEY = get_secret('SOCIAL_AUTH_GOOGLE_PLUS_KEY')
 SOCIAL_AUTH_GOOGLE_PLUS_SECRET = get_secret('SOCIAL_AUTH_GOOGLE_PLUS_SECRET')

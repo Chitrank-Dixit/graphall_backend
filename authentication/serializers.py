@@ -44,6 +44,46 @@ class AccountSerializer(serializers.ModelSerializer):
     #     pass
 
 
+class SocialAccountSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=False)
+    fb_id = serializers.CharField(write_only=True, required=False)
+    #confirm_password = serializers.CharField(write_only=True, required=False)
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'username', 'first_name', 'last_name', 'password', 'date_joined', 'last_login', 'fb_id')
+        read_only_fields = ('date_joined', 'last_login',)
+
+    def create(self, validated_data):
+        user = User.objects.create(**validated_data)
+
+
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.email = validated_data.get('email', instance.email)
+        # instance.tagline = validated_data.get('tagline', instance.tagline)
+
+        instance.save()
+
+        password = validated_data.get('password', None)
+        #confirm_password = validated_data.get('confirm_password', None)
+
+        if password:
+            instance.set_password(password)
+            instance.save()
+
+        update_session_auth_hash(self.context.get('request'), instance)
+
+        return instance
+
+    # def to_internal_value(self, data):
+    #     pass
+    #
+    # def to_representation(self, value):
+    #     pass
+
 class ClientSerializer(serializers.ModelSerializer):
     user = AccountSerializer(required=False)
 
@@ -108,3 +148,5 @@ class MasterAdminSerializer(serializers.ModelSerializer):
     #
     # def to_representation(self, value):
     #     pass
+
+

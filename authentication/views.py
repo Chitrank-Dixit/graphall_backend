@@ -15,11 +15,16 @@ from rest_framework_extensions.cache.decorators import (
 )
 from rest_framework_social_oauth2.views import ConvertTokenView
 from social.apps.django_app.default.models import UserSocialAuth
+from rest_framework import status
+from rest_framework.response import Response
+from social.apps.django_app.utils import load_backend
+from social.backends.oauth import BaseOAuth1, BaseOAuth2
+from social.exceptions import AuthAlreadyAssociated
 from authentication.simple_encryption import SimpleEncryptionDecryption
 from miscellaneous.mixins import CustomMetaDataMixin
 from models import Client, MasterAdmin, UserType
 from permissions import IsAccountOwner, IsMasterAdminOfSite, IsClientOfSite
-from serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer
+from serializers import AccountSerializer, ClientSerializer, MasterAdminSerializer, SocialAccountSerializer
 
 
 class AccountViewSet(CustomMetaDataMixin,viewsets.ModelViewSet):
@@ -56,6 +61,52 @@ class AccountViewSet(CustomMetaDataMixin,viewsets.ModelViewSet):
             'message': 'Account could not be created with received data.'
         }, status=status.HTTP_400_BAD_REQUEST)
 
+
+class SocialAccountViewSet(CustomMetaDataMixin,viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = SocialAccountSerializer
+    # authentication_classes = (JSONWebTokenAuthentication,)
+    authentication_classes = (OAuth2Authentication, )
+    permission_classes = (IsAuthenticated,)
+    lookup_field = 'username'
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return User.objects.all()
+        return User.objects.filter(pk=self.request.user.id)
+
+    def get_permissions(self):
+        #permission_classes = (IsAuthenticated,)
+        #authentication_classes = (JSONWebTokenAuthentication,)
+        # if self.request.method in permissions.SAFE_METHODS:
+        #     return (permissions.AllowAny(),)
+
+        if self.request.method == 'POST':
+            return (permissions.AllowAny(),)
+
+        return (permissions.IsAuthenticated(), IsAccountOwner(),)
+
+    def create(self, request):
+        provider = request.data.pop('provider')
+        uid = None
+        if provider == 'facebook':
+            uid = request.data.pop('fb_id')
+        elif provider == 'google-plus':
+            uid = request.data.get('email')
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user = User.objects.create_user(**serializer.validated_data)
+            UserSocialAuth.objects.create(
+                user_id = user.pk,
+                provider = provider,
+                uid = uid,
+                extra_data = {}
+            )
+            return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
+        return Response({
+            'status': 'Bad request',
+            'message': 'Account could not be created with received data.'
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(CustomMetaDataMixin, views.APIView):
     queryset = User.objects.all()
@@ -164,3 +215,5 @@ class CustomConvertTokenView(CustomMetaDataMixin, ConvertTokenView):
 
     def decrypt_client_secret(self, encrypted_client_secret):
         return SimpleEncryptionDecryption.decrypt(encrypted_client_secret)
+
+

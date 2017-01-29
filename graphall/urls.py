@@ -18,13 +18,14 @@ from django.contrib import admin
 
 from rest_framework_nested import routers
 from authentication.views import AccountViewSet, LoginView, LogoutView, ClientView, MasterAdminView, \
-    CustomConvertTokenView
+    CustomConvertTokenView, SocialAccountViewSet
 from administration.views import PlanViewSet, PlansListView
 from analytics.views import TrackingSourceView, TrackingSourceDetailsLogView, TrackingDataView ,track_source_details, get_custom_ranged_tracking_data
 #from graphall.views import IndexView
 
 router = routers.SimpleRouter()
 router.register(r'accounts', AccountViewSet)
+router.register(r'social-accounts', SocialAccountViewSet)
 router.register(r'clients', ClientView)
 router.register(r'masteradmins', MasterAdminView)
 router.register(r'plans', PlanViewSet)
